@@ -5,23 +5,23 @@ import pages.LoginPage;
 import pages.PostsPage;
 import utils.Configuration;
 
-public class LoginTest extends BaseTest{
+public class PostsPageTest extends BaseTest {
 
+    //class to be determinated
+    PostsPage postsPage = PageFactory.getPostsPage(driver);
     LoginPage loginPage = PageFactory.getLoginPage(driver);
-
 
     @BeforeClass
     public void navigateTo(){
 
         loginPage.openPage();
-
+        loginPage.doRememberMeLogin(Configuration.getLogin(), Configuration.getPassword());
+        postsPage.openPage();
     }
 
     @Test
-    public void successfullLoginTest(){
+    public void firstTest(){
 
-        loginPage.doOrdinaryLogin(Configuration.getLogin(), Configuration.getPassword());
+
     }
-
-
 }

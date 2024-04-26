@@ -11,16 +11,26 @@ import java.util.List;
 public class CommentsPageTable extends Table implements elements.interfaces.Table {
 
     WebDriver driver;
-    public List<PostPageTableRow> tableRows = new ArrayList<>();
-    List<WebElement> allRowsTitle = driver.findElements(rowTitle);
-    List<WebElement> allAuthorTitle = driver.findElements(authorTitle);
+    private List<PostPageTableRow> tableRows = new ArrayList<>();
+    private List<WebElement> allRowsTitle;
+    private List<WebElement> allAuthorTitle;
 
     public CommentsPageTable(WebDriver driver) {
-        super(driver);
+
+        this.driver = driver;
+
+        //TBD
+
+
     }
 
     @Override
     public void createTableRows() {
+
+        updateTableRows();
+
+        allRowsTitle = driver.findElements(rowTitle);
+        allAuthorTitle = driver.findElements(authorTitle);
 
         for(int i=0; i<rowsNumber; i++){
 
@@ -31,7 +41,7 @@ public class CommentsPageTable extends Table implements elements.interfaces.Tabl
     @Override
     public void updateTableRows() {
 
-        if(tableRows.size() != 0){
+        if(tableRows.size() > 0){
 
             updateRowsNumber();
             createTableRows();
