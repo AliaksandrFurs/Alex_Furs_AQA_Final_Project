@@ -19,6 +19,7 @@ public class PostsPageTest extends BaseTest {
         postsPage.openPage();
     }
 
+    //veifying is rows created successfull
     @Test
     public void firstTest(){
 
