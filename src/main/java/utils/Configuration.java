@@ -16,6 +16,7 @@ public class Configuration {
                 configurationProperties = new Properties();
                 configurationProperties.load(new FileInputStream("configuration.properties"));
             } catch (IOException e) {
+                //here should be some logger
                 System.out.println("Check your configuration file");
             }
         }
@@ -29,7 +30,7 @@ public class Configuration {
                 credentialeProperties.load(new FileInputStream("credentiales.properties"));
 
             }catch(IOException e){
-
+                // here should be some logger
                 System.out.println("Check your credential properties file");
 
             }
