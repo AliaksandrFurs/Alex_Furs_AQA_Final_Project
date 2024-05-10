@@ -1,6 +1,7 @@
 package factories;
 
 import org.openqa.selenium.WebDriver;
+import pages.EditingPostPage;
 import pages.LoginPage;
 import pages.PostsPage;
 import utils.Logging;
@@ -9,6 +10,7 @@ public class PageFactory {
 
     private static LoginPage loginPage;
     private static PostsPage postsPage;
+    private static EditingPostPage editingPostPage;
 
     private PageFactory(){}
 
@@ -34,5 +36,14 @@ public class PageFactory {
         return postsPage;
     }
 
+    public static EditingPostPage getEditingPostPage(WebDriver driver){
 
+        if(editingPostPage == null){
+
+            editingPostPage = new EditingPostPage(driver);
+            Logging.logInfo("Editing posts page created successfully");
+
+        }
+        return editingPostPage;
+    }
 }

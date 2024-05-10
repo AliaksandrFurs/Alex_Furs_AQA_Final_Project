@@ -13,8 +13,8 @@ public class PostsPageTable extends Table implements elements.interfaces.Table {
 
     WebDriver driver;
     private List<PostPageTableRow> tableRows = new ArrayList<>();
-    private List<WebElement> allRowsTitle;
-    private List<WebElement> allAuthorTitle;
+    private List<WebElement> allRowsTitle = new ArrayList<>();
+    private List<WebElement> allAuthorTitle = new ArrayList<>();
 
 
     public PostsPageTable(WebDriver driver) {
@@ -27,7 +27,10 @@ public class PostsPageTable extends Table implements elements.interfaces.Table {
     @Override
     public void createTableRows() {
 
-        updateTableRows();
+        updateRowsNumber();
+
+        allRowsTitle.clear();
+        allAuthorTitle.clear();
 
         allRowsTitle = driver.findElements(rowTitle);
         allAuthorTitle = driver.findElements(authorTitle);
@@ -37,17 +40,6 @@ public class PostsPageTable extends Table implements elements.interfaces.Table {
             tableRows.add(new PostPageTableRow(allRowsTitle.get(i).getText(), allAuthorTitle.get(i).getText()));
         }
 
-        allRowsTitle.clear();
-        allAuthorTitle.clear();
-    }
-
-    @Override
-    public void updateTableRows() {
-
-        if(tableRows.size() > 0){
-            updateRowsNumber();
-            createTableRows();
-        }
     }
 
     @Override
@@ -55,5 +47,14 @@ public class PostsPageTable extends Table implements elements.interfaces.Table {
 
         rowsNumber = driver.findElements(rowTitle).size();
 
+    }
+
+    public List<WebElement> getAllRowsTitle() {
+        return allRowsTitle;
+    }
+
+    public void deleteTableRows(){
+
+        tableRows.clear();
     }
 }

@@ -1,6 +1,8 @@
 import factories.PageFactory;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import pages.EditingPostPage;
 import pages.LoginPage;
 import pages.PostsPage;
 import utils.Configuration;
@@ -11,6 +13,7 @@ public class PostsPageTest extends BaseTest {
     //class to be determinated
     PostsPage postsPage = PageFactory.getPostsPage(driver);
     LoginPage loginPage = PageFactory.getLoginPage(driver);
+    EditingPostPage editingPostPage = PageFactory.getEditingPostPage(driver);
 
     @BeforeClass
     public void navigateTo(){
@@ -21,10 +24,14 @@ public class PostsPageTest extends BaseTest {
         Logging.logInfo("Posts page opened successfully");
     }
 
-    //veifying is rows created successfull
-    @Test
-    public void firstTest(){
 
+    @Test
+    public void findPostTest(){
+
+        //TBD
+        Assert.assertEquals(postsPage.findPost("555"), "555");
+        Logging.logInfo("Post find successfully");
 
     }
+
 }

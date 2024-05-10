@@ -13,8 +13,8 @@ public class PagesPageTable extends elements.Table implements Table {
 
     WebDriver driver;
     private List<PostPageTableRow> tableRows = new ArrayList<>();
-    private List<WebElement> allRowsTitle;
-    private List<WebElement> allAuthorTitle;
+    private List<WebElement> allRowsTitle = new ArrayList<>();
+    private List<WebElement> allAuthorTitle = new ArrayList<>();
 
     public PagesPageTable(WebDriver driver) {
         this.driver = driver;
@@ -24,7 +24,10 @@ public class PagesPageTable extends elements.Table implements Table {
     @Override
     public void createTableRows() {
 
-        updateTableRows();
+        updateRowsNumber();
+
+        allRowsTitle.clear();
+        allAuthorTitle.clear();
 
         allRowsTitle = driver.findElements(rowTitle);
         allAuthorTitle = driver.findElements(authorTitle);
@@ -33,19 +36,12 @@ public class PagesPageTable extends elements.Table implements Table {
 
             tableRows.add(new PostPageTableRow(allRowsTitle.get(i).getText(), allAuthorTitle.get(i).getText()));
         }
-
-        allAuthorTitle.clear();
-        allRowsTitle.clear();
     }
 
     @Override
-    public void updateTableRows() {
+    public void deleteTableRows() {
 
-        if(tableRows.size() > 0){
-
-            updateRowsNumber();
-            createTableRows();
-        }
+        tableRows.clear();
     }
 
     @Override
