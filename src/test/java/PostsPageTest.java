@@ -4,6 +4,7 @@ import org.testng.annotations.Test;
 import pages.LoginPage;
 import pages.PostsPage;
 import utils.Configuration;
+import utils.Logging;
 
 public class PostsPageTest extends BaseTest {
 
@@ -17,6 +18,7 @@ public class PostsPageTest extends BaseTest {
         loginPage.openPage();
         loginPage.doRememberMeLogin(Configuration.getLogin(), Configuration.getPassword());
         postsPage.openPage();
+        Logging.logInfo("Posts page opened successfully");
     }
 
     //veifying is rows created successfull
