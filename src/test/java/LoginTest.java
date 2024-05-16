@@ -1,4 +1,6 @@
 import factories.PageFactory;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import pages.LoginPage;
@@ -20,6 +22,7 @@ public class LoginTest extends BaseTest{
     }
 
     @Test
+    @Severity(SeverityLevel.CRITICAL)
     public void successfullLoginTest(){
 
         loginPage.doOrdinaryLogin(Configuration.getLogin(), Configuration.getPassword());
