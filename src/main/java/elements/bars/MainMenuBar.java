@@ -5,6 +5,7 @@ import enums.MainMenuBarSectionEnum;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import utils.Logging;
 
 public class MainMenuBar implements MainMenuBarActions {
 
@@ -21,7 +22,7 @@ public class MainMenuBar implements MainMenuBarActions {
 
         }catch(NoSuchElementException e ){
 
-            System.out.println("No " + sectionName.getValue() + " element on the page");
+            Logging.logError("No " + sectionName.getValue() + " element on the page");
         }
 
     }
