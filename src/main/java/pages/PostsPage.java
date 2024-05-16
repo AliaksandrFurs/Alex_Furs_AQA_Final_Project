@@ -27,13 +27,18 @@ public class PostsPage extends BasePage implements Page {
         Wait.isElementPresented(driver.findElement(pageNameLocator));
         postsPageTable.updateRowsNumber();
         postsPageTable.createTableRows();
-        //postsPageTable.createTableRows();
+    }
+
+    @Override
+    public boolean isOpened() {
+
+        Wait.isElementPresented(driver.findElement(pageNameLocator));
+        return true;
     }
 
     public void clickOnAddNewPostButton(){
 
         driver.findElement(addPageButtonLocator).click();
-        //Wait.isElementPresented();
     }
 
     public String findPost(String postName){
@@ -41,11 +46,7 @@ public class PostsPage extends BasePage implements Page {
         postsPageTable.deleteTableRows();
         driver.findElement(searchInput).sendKeys(postName);
         driver.findElement(searchButton).click();
-        //postsPageTable.updateTableRows();
         postsPageTable.createTableRows();
-        //Wait.isElementPresented(postsPageTable.getAllRowsTitle().get(0));
-        //postsPageTable.updateTableRows();
-        //postsPageTable.createTableRows();
         return postsPageTable.getAllRowsTitle().get(0).getText();
 
     }

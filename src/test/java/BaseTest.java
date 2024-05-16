@@ -7,6 +7,8 @@ import utils.Logging;
 
 public class BaseTest {
 
+    public String testName;
+
     static Browser browser = new Browser();
     static WebDriver driver = Browser.getDriver();
 

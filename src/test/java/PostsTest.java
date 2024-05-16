@@ -1,3 +1,4 @@
+import business.Post;
 import factories.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -11,21 +12,19 @@ import utils.Logging;
 
 import java.lang.reflect.Method;
 
-public class PostsPageTest extends BaseTest {
+public class PostsTest extends BaseTest{
 
-    //class to be determinated
-
-    PostsPage postsPage = PageFactory.getPostsPage(driver);
     LoginPage loginPage = PageFactory.getLoginPage(driver);
     EditingPostPage editingPostPage = PageFactory.getEditingPostPage(driver);
+    PostsPage postsPage = PageFactory.getPostsPage(driver);
 
     @BeforeClass
     public void navigateTo(){
 
         loginPage.openPage();
         loginPage.doRememberMeLogin(Configuration.getLogin(), Configuration.getPassword());
-        postsPage.openPage();
-        Logging.logInfo("Posts page opened successfully");
+        editingPostPage.openPage();
+        Logging.logInfo("Post creating page opened successfully");
     }
 
     @BeforeMethod
@@ -33,23 +32,13 @@ public class PostsPageTest extends BaseTest {
         testName = method.getName();
     }
 
-    @Test (description = "Opening post adding form")
-    public void openPostAddingPageTest(){
+    @Test
+    public void addOnePostTest(){
 
-        Logging.logInfo("Test " + testName + " starts");
-        postsPage.clickOnAddNewPostButton();
-        Assert.assertTrue(editingPostPage.isOpened(), "Post adding page does not opened");
-        Logging.logInfo("Test " + testName + " finished");
-    }
-
-    @Test (description = "Find specific post")
-    public void findPostTest(){
-
-        //TBD
-        Logging.logInfo("Test " + testName + " started");
-        Assert.assertEquals(postsPage.findPost("555"), "555");
+        editingPostPage.addNewPost(Post.getPostTitle(), Post.getPostBody());
+        editingPostPage.dashboardClick();
+        Assert.assertEquals(postsPage.findPost(Post.getPostTitle()),Post.getPostTitle(), "No such post available");
         Logging.logInfo("Test " + testName + " finished");
 
     }
-
 }
