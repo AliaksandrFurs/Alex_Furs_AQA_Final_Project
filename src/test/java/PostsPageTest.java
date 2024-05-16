@@ -1,4 +1,6 @@
 import factories.PageFactory;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -34,6 +36,7 @@ public class PostsPageTest extends BaseTest {
     }
 
     @Test (description = "Opening post adding form")
+    @Severity(SeverityLevel.CRITICAL)
     public void openPostAddingPageTest(){
 
         Logging.logInfo("Test " + testName + " starts");
@@ -43,6 +46,7 @@ public class PostsPageTest extends BaseTest {
     }
 
     @Test (description = "Find specific post")
+    @Severity(SeverityLevel.NORMAL)
     public void findPostTest(){
 
         //TBD

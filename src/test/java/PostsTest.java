@@ -1,5 +1,7 @@
 import business.Post;
 import factories.PageFactory;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -32,7 +34,8 @@ public class PostsTest extends BaseTest{
         testName = method.getName();
     }
 
-    @Test
+    @Test (description = "Adding single post test")
+    @Severity(SeverityLevel.CRITICAL)
     public void addOnePostTest(){
 
         editingPostPage.addNewPost(Post.getPostTitle(), Post.getPostBody());
