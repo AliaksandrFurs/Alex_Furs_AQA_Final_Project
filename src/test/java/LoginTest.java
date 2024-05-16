@@ -29,5 +29,12 @@ public class LoginTest extends BaseTest{
         Logging.logInfo("Login successfull");
     }
 
+    @Test
+    @Severity(SeverityLevel.CRITICAL)
+    public void unsuccessfullLoginTest(){
+
+        //TBD
+    }
+
 
 }

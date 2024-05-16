@@ -15,6 +15,7 @@ public class PagesPageTable extends elements.Table implements Table {
     private List<PostPageTableRow> tableRows = new ArrayList<>();
     private List<WebElement> allRowsTitle = new ArrayList<>();
     private List<WebElement> allAuthorTitle = new ArrayList<>();
+    private List<WebElement> allId = new ArrayList<>();
 
     public PagesPageTable(WebDriver driver) {
         this.driver = driver;
@@ -28,13 +29,14 @@ public class PagesPageTable extends elements.Table implements Table {
 
         allRowsTitle.clear();
         allAuthorTitle.clear();
+        allId.clear();
 
         allRowsTitle = driver.findElements(rowTitle);
         allAuthorTitle = driver.findElements(authorTitle);
 
         for(int i=0; i<rowsNumber; i++){
 
-            tableRows.add(new PostPageTableRow(allRowsTitle.get(i).getText(), allAuthorTitle.get(i).getText()));
+            tableRows.add(new PostPageTableRow(allRowsTitle.get(i).getText(), allAuthorTitle.get(i).getText(), allId.get(i).getAttribute("id")));
         }
     }
 
@@ -48,5 +50,10 @@ public class PagesPageTable extends elements.Table implements Table {
     public void updateRowsNumber() {
 
         rowsNumber = driver.findElements(rowTitle).size();
+    }
+
+    @Override
+    public void selectRows() {
+
     }
 }

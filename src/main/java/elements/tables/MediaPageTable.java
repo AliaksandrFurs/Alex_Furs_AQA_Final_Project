@@ -15,6 +15,7 @@ public class MediaPageTable extends Table implements elements.interfaces.Table {
     private List<MediaPageTableRow> tableRows = new ArrayList<>();
     private List<WebElement> allRowsTitle = new ArrayList<>();
     private List<WebElement> allAuthorTitle = new ArrayList<>();
+    private List<WebElement> allId = new ArrayList<>();
 
     public MediaPageTable(WebDriver driver) {
 
@@ -30,13 +31,14 @@ public class MediaPageTable extends Table implements elements.interfaces.Table {
 
         allRowsTitle.clear();
         allAuthorTitle.clear();
+        allId.clear();
 
         allRowsTitle = driver.findElements(rowTitle);
         allAuthorTitle = driver.findElements(authorTitle);
 
         for(int i=0; i<rowsNumber; i++){
 
-            tableRows.add(new MediaPageTableRow(allRowsTitle.get(i).getText(), allAuthorTitle.get(i).getText()));
+            tableRows.add(new MediaPageTableRow(allRowsTitle.get(i).getText(), allAuthorTitle.get(i).getText(), allId.get(i).getAttribute("id")));
 
         }
 
@@ -52,6 +54,11 @@ public class MediaPageTable extends Table implements elements.interfaces.Table {
     public void updateRowsNumber() {
 
         rowsNumber = driver.findElements(rowTitle).size();
+
+    }
+
+    @Override
+    public void selectRows() {
 
     }
 }

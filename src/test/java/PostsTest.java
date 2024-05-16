@@ -38,10 +38,24 @@ public class PostsTest extends BaseTest{
     @Severity(SeverityLevel.CRITICAL)
     public void addOnePostTest(){
 
+        Logging.logInfo("Test " + testName + " started");
         editingPostPage.addNewPost(Post.getPostTitle(), Post.getPostBody());
         editingPostPage.dashboardClick();
-        Assert.assertEquals(postsPage.findPost(Post.getPostTitle()),Post.getPostTitle(), "No such post available");
+        postsPage.findPost(Post.getPostTitle());
+        Assert.assertTrue(postsPage.isPostAvailable(Post.getPostTitle()), "No such post available");
         Logging.logInfo("Test " + testName + " finished");
 
     }
+
+    @Test (description = "Save post as draft")
+    @Severity(SeverityLevel.NORMAL)
+    public void addDraftTest(){
+
+        Logging.logInfo("Test " + testName + " started");
+        editingPostPage.savePostAsDraft("Test as draft", "Test as draft");
+        editingPostPage.dashboardClick();
+        postsPage.findPost("Test as draft");
+        Assert.assertTrue(postsPage.isPostDraft("Test as draft"), "Post is not draft");
+    }
+
 }

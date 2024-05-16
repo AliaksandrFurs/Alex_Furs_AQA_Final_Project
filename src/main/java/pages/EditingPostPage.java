@@ -22,6 +22,8 @@ public class EditingPostPage extends BasePage implements Page {
 
     private By dashboardLogo = By.xpath("//a[contains(@class, 'components-button edit-post-fullscreen-mode-close')]");
 
+    private By saveDraftButton = By.xpath("//button[contains(@class, 'components-button editor-post-save-draft is-tertiary')]");
+
     @FindBy (name = "editor-canvas")
     private WebElement iframe;
 
@@ -56,11 +58,22 @@ public class EditingPostPage extends BasePage implements Page {
 
     public void addNewPost(String postTitle, String postBody){
 
-        //driver.switchTo().frame(iframe);
         driver.findElement(addTitleField).sendKeys(postTitle);
         driver.findElement(addPostBodyField).sendKeys(postBody);
         driver.switchTo().defaultContent();
         driver.findElement(publishButton).click();
         Wait.isElementPresented(driver.findElement(publishSnackBar));
     }
+
+    public void savePostAsDraft(String postTitle, String postBody){
+
+        driver.findElement(addTitleField).sendKeys(postTitle);
+        driver.findElement(addPostBodyField).sendKeys(postBody);
+        driver.switchTo().defaultContent();
+        driver.findElement(saveDraftButton).click();
+        Wait.isElementPresented(driver.findElement(publishSnackBar));
+        Wait.isElementPresented(driver.findElement(By.xpath("//button[contains(text(), 'Saved')]")));
+    }
+
+
 }

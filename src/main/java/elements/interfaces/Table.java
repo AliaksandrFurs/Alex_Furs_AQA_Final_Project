@@ -7,4 +7,6 @@ public interface Table {
     public void deleteTableRows();
 
     public void updateRowsNumber();
+
+    public void selectRows();
 }

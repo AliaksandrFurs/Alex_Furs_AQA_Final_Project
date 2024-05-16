@@ -1,3 +1,4 @@
+import business.Post;
 import factories.PageFactory;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
@@ -51,9 +52,20 @@ public class PostsPageTest extends BaseTest {
 
         //TBD
         Logging.logInfo("Test " + testName + " started");
-        Assert.assertEquals(postsPage.findPost("555"), "555");
+        postsPage.findPost("555");
+        Assert.assertEquals(postsPage.isPostAvailable("555"), "555");
         Logging.logInfo("Test " + testName + " finished");
 
+    }
+
+    @Test (description = "Delete post test")
+    @Severity(SeverityLevel.CRITICAL)
+    public void deletePostTest(){
+
+        Logging.logInfo("Test " + testName + " started");
+        postsPage.deletePost(Post.getPostTitle());
+        Assert.assertFalse(postsPage.isPostAvailable(Post.getPostTitle()), "Post still available and was not delete");
+        Logging.logInfo("Test " + testName + " finished");
     }
 
 }

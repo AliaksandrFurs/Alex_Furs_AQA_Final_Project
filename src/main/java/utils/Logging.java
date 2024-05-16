@@ -18,7 +18,7 @@ public class Logging {
         logger.error(message);
     }
 
-    public void logWarn(String message){
+    public static void logWarn(String message){
 
         logger.warn(message);
     }
