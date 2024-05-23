@@ -34,7 +34,7 @@ public class PostsTest extends BaseTest{
         testName = method.getName();
     }
 
-    @Test (description = "Adding single post test")
+    @Test (description = "Adding single post test", priority = 1)
     @Severity(SeverityLevel.CRITICAL)
     public void addOnePostTest(){
 
@@ -47,7 +47,7 @@ public class PostsTest extends BaseTest{
 
     }
 
-    @Test (description = "Save post as draft")
+    @Test (description = "Save post as draft", priority = 2)
     @Severity(SeverityLevel.NORMAL)
     public void addDraftTest(){
 
