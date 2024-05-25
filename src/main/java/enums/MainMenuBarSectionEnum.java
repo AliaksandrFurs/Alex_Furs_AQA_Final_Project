@@ -2,8 +2,8 @@ package enums;
 
 public enum MainMenuBarSectionEnum {
     POSTS("Posts"),
-        MEDIA("Media"),
-            PAGES("Pages");
+    MEDIA("Media"),
+    PAGES("Pages");
 
     private String value;
 

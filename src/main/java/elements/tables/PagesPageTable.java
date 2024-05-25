@@ -24,36 +24,47 @@ public class PagesPageTable extends elements.Table implements Table {
 
     @Override
     public void createTableRows() {
-
         updateRowsNumber();
 
         allRowsTitle.clear();
         allAuthorTitle.clear();
         allId.clear();
+        tableRows.clear();
 
         allRowsTitle = driver.findElements(rowTitle);
         allAuthorTitle = driver.findElements(authorTitle);
+        allId = driver.findElements(rowId);
 
         for(int i=0; i<rowsNumber; i++){
-
             tableRows.add(new PostPageTableRow(allRowsTitle.get(i).getText(), allAuthorTitle.get(i).getText(), allId.get(i).getAttribute("id")));
         }
     }
 
     @Override
     public void deleteTableRows() {
-
         tableRows.clear();
     }
 
     @Override
     public void updateRowsNumber() {
-
         rowsNumber = driver.findElements(rowTitle).size();
     }
 
     @Override
     public void selectRows() {
+        driver.findElement(rowCheckbox).click();
+    }
 
+    public boolean isTitleDraft(String title){
+        for(PostPageTableRow row: tableRows){
+            if(row.getName().equals(title)){
+                return row.isDraft();
+            }
+        }
+        return false;
+    }
+
+    public List<WebElement> getAllRowsTitle() {
+        return allRowsTitle;
     }
 }

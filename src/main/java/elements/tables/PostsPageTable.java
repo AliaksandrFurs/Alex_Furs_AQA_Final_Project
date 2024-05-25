@@ -23,9 +23,7 @@ public class PostsPageTable extends Table implements elements.interfaces.Table {
 
     public PostsPageTable(WebDriver driver) {
         this.driver = driver;
-
         rowTitle = By.xpath("//a[contains(@class, 'row-title')]");
-
     }
 
     @Override
@@ -36,6 +34,7 @@ public class PostsPageTable extends Table implements elements.interfaces.Table {
         allRowsTitle.clear();
         allAuthorTitle.clear();
         allId.clear();
+        tableRows.clear();
 
         allRowsTitle = driver.findElements(rowTitle);
         allAuthorTitle = driver.findElements(authorTitle);
@@ -48,7 +47,6 @@ public class PostsPageTable extends Table implements elements.interfaces.Table {
         }
 
         for(PostPageTableRow row: tableRows){
-
             try{
                 driver.findElement(By.xpath(String.format(PATTERN, row.getId())));
                 row.setDraft(true);
@@ -57,19 +55,15 @@ public class PostsPageTable extends Table implements elements.interfaces.Table {
                 Logging.logWarn("Element not exists");
             }
         }
-
     }
 
     @Override
     public void updateRowsNumber() {
-
         rowsNumber = driver.findElements(rowTitle).size();
-
     }
 
     @Override
     public void selectRows() {
-
         driver.findElement(rowCheckbox).click();
     }
 
@@ -78,12 +72,10 @@ public class PostsPageTable extends Table implements elements.interfaces.Table {
     }
 
     public void deleteTableRows(){
-
         tableRows.clear();
     }
 
     public boolean isTitleDraft(String title){
-
         for(PostPageTableRow row: tableRows){
             if(row.getName().equals(title)){
                 return row.isDraft();

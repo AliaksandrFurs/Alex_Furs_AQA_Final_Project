@@ -8,6 +8,5 @@ public class PostPageTableRow extends Row {
 
     public PostPageTableRow(String name, String author, String id) {
         super(name, author, id);
-
     }
 }

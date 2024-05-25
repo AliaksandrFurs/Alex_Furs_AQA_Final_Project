@@ -10,15 +10,12 @@ public class Configuration {
     private static Properties credentialeProperties;
 
     public static Properties getConfigurationProperties() {
-
         if (configurationProperties == null) {
             try {
                 configurationProperties = new Properties();
                 configurationProperties.load(new FileInputStream("configuration.properties"));
             } catch (IOException e) {
-
                 Logging.logError("Check your configuration file");
-
             }
         }
         return configurationProperties;
@@ -32,27 +29,30 @@ public class Configuration {
                 Logging.logInfo("Loading credentials properties successfull");
 
             }catch(IOException e){
-
                 Logging.logError("Check your credential properties file");
-
             }
         }
         return credentialeProperties;
     }
 
     public static String getBrowserName(){
-
         return Configuration.getConfigurationProperties().getProperty("browser");
     }
 
     public static String getLogin(){
-
         return Configuration.getCredentialeProperties().getProperty("login");
     }
 
     public static String getPassword(){
-
         return Configuration.getCredentialeProperties().getProperty("password");
+    }
+
+    public static String getInvalidLogin(){
+        return  Configuration.getCredentialeProperties().getProperty("invalidLogin");
+    }
+
+    public static String getInvalidPassword(){
+        return Configuration.getCredentialeProperties().getProperty("invalidPassword");
     }
 
 
