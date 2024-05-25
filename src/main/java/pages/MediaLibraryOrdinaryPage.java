@@ -1,8 +1,10 @@
 package pages;
 
 import elements.interfaces.BasicOrdinaryPageActions;
+import elements.interfaces.MainMenuBarActions;
 import elements.interfaces.Page;
 import elements.tables.MediaPageTable;
+import enums.MainMenuBarSectionEnum;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -10,7 +12,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 import utils.Wait;
 
-public class MediaLibraryOrdinaryPage extends BasePage implements Page, BasicOrdinaryPageActions {
+public class MediaLibraryOrdinaryPage extends BasePage implements Page, BasicOrdinaryPageActions, MainMenuBarActions {
 
     private final static String MEDIA_URL = "https://wordpress-test-app-for-selenium.azurewebsites.net/wp-admin/upload.php";
 
@@ -44,7 +46,7 @@ public class MediaLibraryOrdinaryPage extends BasePage implements Page, BasicOrd
     @Override
     public void searchEntity(String entityName) {
         mediaPageTable.deleteTableRows();
-        driver.findElement(searchInput).sendKeys(entityName);
+        driver.findElement(mediaSearchInput).sendKeys(entityName);
         driver.findElement(searchButton).click();
         mediaPageTable.createTableRows();
     }
@@ -75,5 +77,15 @@ public class MediaLibraryOrdinaryPage extends BasePage implements Page, BasicOrd
     @Override
     public void openAddingEntityPage() {
         driver.findElement(addNewEntityButton).click();
+    }
+
+    @Override
+    public BasePage ClickOnBarSection(MainMenuBarSectionEnum sectionName) {
+        return mainMenuBar.ClickOnBarSection(sectionName);
+    }
+
+    @Override
+    public boolean isSectionPresented(MainMenuBarSectionEnum sectionName) {
+        return false;
     }
 }

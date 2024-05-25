@@ -1,8 +1,11 @@
 package pages;
 
 import elements.interfaces.BasicOrdinaryPageActions;
+import elements.interfaces.MainMenuBarActions;
 import elements.interfaces.Page;
 import elements.tables.PostsPageTable;
+import enums.MainMenuBarSectionEnum;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -10,7 +13,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 import utils.Wait;
 
-public class PostsOrdinaryPage extends BasePage implements Page, BasicOrdinaryPageActions {
+public class PostsOrdinaryPage extends BasePage implements Page, BasicOrdinaryPageActions, MainMenuBarActions {
 
 
     private final static String POSTS_URL = "https://wordpress-test-app-for-selenium.azurewebsites.net/wp-admin/edit.php";
@@ -78,5 +81,15 @@ public class PostsOrdinaryPage extends BasePage implements Page, BasicOrdinaryPa
     @Override
     public void openAddingEntityPage() {
         driver.findElement(addNewEntityButton).click();
+    }
+
+    @Override
+    public BasePage ClickOnBarSection(MainMenuBarSectionEnum sectionName) {
+        return mainMenuBar.ClickOnBarSection(sectionName);
+    }
+
+    @Override
+    public boolean isSectionPresented(MainMenuBarSectionEnum sectionName) {
+        return false;
     }
 }

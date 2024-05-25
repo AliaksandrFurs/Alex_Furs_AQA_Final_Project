@@ -1,10 +1,13 @@
 package elements.tables;
 
 import elements.interfaces.Table;
+import elements.rows.PagesPageTableRow;
 import elements.rows.PostPageTableRow;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import utils.Logging;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +15,8 @@ import java.util.List;
 public class PagesPageTable extends elements.Table implements Table {
 
     WebDriver driver;
-    private List<PostPageTableRow> tableRows = new ArrayList<>();
+    private static final String PATTERN = "//tr[@id='%s']//strong/span[contains(text(), 'Draft')]";
+    private List<PagesPageTableRow> tableRows = new ArrayList<>();
     private List<WebElement> allRowsTitle = new ArrayList<>();
     private List<WebElement> allAuthorTitle = new ArrayList<>();
     private List<WebElement> allId = new ArrayList<>();
@@ -36,7 +40,17 @@ public class PagesPageTable extends elements.Table implements Table {
         allId = driver.findElements(rowId);
 
         for(int i=0; i<rowsNumber; i++){
-            tableRows.add(new PostPageTableRow(allRowsTitle.get(i).getText(), allAuthorTitle.get(i).getText(), allId.get(i).getAttribute("id")));
+            tableRows.add(new PagesPageTableRow(allRowsTitle.get(i).getText(), allAuthorTitle.get(i).getText(), allId.get(i).getAttribute("id")));
+        }
+
+        for(PagesPageTableRow row: tableRows){
+            try{
+                driver.findElement(By.xpath(String.format(PATTERN, row.getId())));
+                row.setDraft(true);
+            }catch(NoSuchElementException e){
+                row.setDraft(false);
+                Logging.logWarn("Element not exists");
+            }
         }
     }
 
@@ -56,7 +70,7 @@ public class PagesPageTable extends elements.Table implements Table {
     }
 
     public boolean isTitleDraft(String title){
-        for(PostPageTableRow row: tableRows){
+        for(PagesPageTableRow row: tableRows){
             if(row.getName().equals(title)){
                 return row.isDraft();
             }

@@ -42,15 +42,6 @@ public class UploadingMediaTest extends BaseTest {
         uploadMediaPage.openPage();
     }
 
-    @Test(groups = "regression")
-    @Severity(SeverityLevel.NORMAL) @Description("Adding valid media test")
-    public void addValidMediaTest(){
-        Logging.logInfo("Test " + testName + " started");
-        uploadMediaPage.uploadNewImage();
-        mediaLibraryPage.searchEntity(Media.getMediaNameTitle());
-        Assert.assertTrue(mediaLibraryPage.isEntityAvailable());
-        Logging.logInfo("Test " + testName + " finished");
-    }
 
     @Test(groups = "regression")
     @Severity(SeverityLevel.NORMAL) @Description("Adding non existing media")

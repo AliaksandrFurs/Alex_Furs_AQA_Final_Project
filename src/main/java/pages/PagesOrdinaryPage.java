@@ -1,8 +1,10 @@
 package pages;
 
 import elements.interfaces.BasicOrdinaryPageActions;
+import elements.interfaces.MainMenuBarActions;
 import elements.interfaces.Page;
 import elements.tables.PagesPageTable;
+import enums.MainMenuBarSectionEnum;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -10,7 +12,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 import utils.Wait;
 
-public class PagesOrdinaryPage extends  BasePage implements Page, BasicOrdinaryPageActions {
+public class PagesOrdinaryPage extends  BasePage implements Page, BasicOrdinaryPageActions, MainMenuBarActions {
 
     private final static String PAGE_UTL = "https://wordpress-test-app-for-selenium.azurewebsites.net/wp-admin/edit.php?post_type=page";
 
@@ -79,5 +81,15 @@ public class PagesOrdinaryPage extends  BasePage implements Page, BasicOrdinaryP
 
         //findPost(postTitle);
         return pagesPageTable.isTitleDraft(postTitle);
+    }
+
+    @Override
+    public BasePage ClickOnBarSection(MainMenuBarSectionEnum sectionName) {
+        return mainMenuBar.ClickOnBarSection(sectionName);
+    }
+
+    @Override
+    public boolean isSectionPresented(MainMenuBarSectionEnum sectionName) {
+        return false;
     }
 }

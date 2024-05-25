@@ -46,20 +46,24 @@ public class CreatePage implements BasicCreatePageActions {
 
     @Override
     public void addNewEntity(String postTitle, String postBody) {
+        driver.switchTo().frame(iframe);
         driver.findElement(addTitleField).sendKeys(postTitle);
         driver.findElement(addPostBodyField).sendKeys(postBody);
         driver.switchTo().defaultContent();
         driver.findElement(publishButton).click();
         Wait.isElementPresented(driver.findElement(publishSnackBar));
+        dashboardClick();
     }
 
     @Override
     public void saveEntityAsDraft(String postTitle, String postBody) {
+        driver.switchTo().frame(iframe);
         driver.findElement(addTitleField).sendKeys(postTitle);
         driver.findElement(addPostBodyField).sendKeys(postBody);
         driver.switchTo().defaultContent();
         driver.findElement(saveDraftButton).click();
         Wait.isElementPresented(driver.findElement(publishSnackBar));
         Wait.isElementPresented(driver.findElement(By.xpath("//button[contains(text(), 'Saved')]")));
+        dashboardClick();
     }
 }

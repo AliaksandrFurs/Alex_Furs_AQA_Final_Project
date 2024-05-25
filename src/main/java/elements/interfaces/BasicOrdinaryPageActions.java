@@ -7,6 +7,7 @@ import org.openqa.selenium.support.FindBy;
 public interface BasicOrdinaryPageActions {
 
     By searchInput = By.id("post-search-input");
+    By mediaSearchInput = By.id("media-search-input");
     By searchButton = By.id("search-submit");
     By applyActionButton = By.id("doaction");
     By addNewEntityButton = By.xpath("//a[contains(@class, 'page-title-action')]");

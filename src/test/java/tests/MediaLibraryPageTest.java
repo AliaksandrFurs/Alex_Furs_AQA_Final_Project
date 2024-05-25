@@ -1,14 +1,13 @@
 package tests;
 
 import business.Media;
+import enums.MainMenuBarSectionEnum;
 import factories.PageFactory;
 import io.qameta.allure.Description;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import pages.LoginPage;
 import pages.MediaLibraryOrdinaryPage;
 import pages.UploadNewMediaPage;
@@ -30,13 +29,23 @@ public class MediaLibraryPageTest extends BaseTest{
             loginPage.doLogin(Configuration.getLogin(), Configuration.getPassword(), false);
             isUserLogin = true;
         }
-        uploadMediaPage.openPage();
-        uploadMediaPage.uploadNewImage();
+        mediaLibraryPage.ClickOnBarSection(MainMenuBarSectionEnum.MEDIA);
+        Logging.logInfo("Media page opened successfully");
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void afterClass(){
+        mediaLibraryPage.ClickOnBarSection(MainMenuBarSectionEnum.MEDIA);
     }
 
     @BeforeMethod(alwaysRun = true)
     public void handleTestMethodeName(Method method){
         testName = method.getName();
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public void returnToMainPage(){
+        mediaLibraryPage.openPage();
     }
 
     @Test(priority = 2, groups = "regression")
@@ -48,9 +57,21 @@ public class MediaLibraryPageTest extends BaseTest{
     }
 
     @Test(priority = 1, groups = "regression")
-    @Severity(SeverityLevel.NORMAL) @Description("Opening media adding form")
-    public void openUploadMediaPageTest(){
+    @Severity(SeverityLevel.NORMAL) @Description("Add one single valid media")
+    public void addOneMediaTest(){
         mediaLibraryPage.openAddingEntityPage();
-        Assert.assertTrue(uploadMediaPage.isOpened(), "Upload media page does not opened");
+        uploadMediaPage.uploadNewImage(Media.getMediaNameTitle());
+        mediaLibraryPage.searchEntity(Media.getMediaNameTitle());
+        Assert.assertTrue(mediaLibraryPage.isEntityAvailable());
+        Logging.logInfo("Test " + testName + " finished");
+    }
+
+    @Test(priority = 3, groups = "regression")
+    @Severity(SeverityLevel.NORMAL) @Description("Adding non existing media")
+    public void addEmptyMediaTest(){
+        Logging.logInfo("Test " + testName + " started");
+        mediaLibraryPage.openAddingEntityPage();
+        uploadMediaPage.uploadNewImage("");
+        Assert.assertTrue(uploadMediaPage.isOpened(), "No error occured during adding empty media");
     }
 }

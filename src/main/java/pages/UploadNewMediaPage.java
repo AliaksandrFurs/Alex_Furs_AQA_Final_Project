@@ -38,10 +38,16 @@ public class UploadNewMediaPage extends BasePage implements Page {
         return true;
     }
 
-    public void uploadNewImage(){
-        uploadButton.sendKeys("C:\\Users\\37529\\IdeaProjects\\Alex_Furs_AQA_Final_Project\\src\\test\\resources\\Screenshot_1.jpg");
-        submitButton.click();
-        Wait.isElementPresented(driver.findElement(pageNameLocator));
+    public void uploadNewImage(String fileName){
+        if(fileName.equals("Screenshot_1")){
+            uploadButton.sendKeys("C:\\Users\\37529\\IdeaProjects\\Alex_Furs_AQA_Final_Project\\src\\test\\resources\\Screenshot_1.jpg");
+            submitButton.click();
+            Wait.isElementPresented(driver.findElement(pageNameLocator));
+        }else{
+            submitButton.click();
+            Wait.isElementPresented(driver.findElement(errorUpload));
+            driver.navigate().back();
+        }
     }
 
     public void uploadEmptyImage(){
