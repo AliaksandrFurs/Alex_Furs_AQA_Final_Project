@@ -1,3 +1,0 @@
-"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
-"passed","Wed May 22 20:43:52 CEST 2024","Wed May 22 20:44:05 CEST 2024","13593","Default Suite","Alex_Furs_AQA_Final_Project","PostsTest","PostsTest","addOnePostTest","Adding single post test",""
-"broken","Wed May 22 20:44:05 CEST 2024","Wed May 22 20:44:05 CEST 2024","26","Default Suite","Alex_Furs_AQA_Final_Project","PostsTest","PostsTest","addDraftTest","Save post as draft",""
