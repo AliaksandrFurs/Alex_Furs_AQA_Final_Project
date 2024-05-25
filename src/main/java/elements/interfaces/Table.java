@@ -4,7 +4,9 @@ public interface Table {
 
     public void createTableRows();
 
-    public void updateTableRows();
+    public void deleteTableRows();
 
     public void updateRowsNumber();
+
+    public void selectRows();
 }

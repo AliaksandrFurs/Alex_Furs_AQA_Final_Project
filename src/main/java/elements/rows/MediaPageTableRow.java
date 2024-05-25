@@ -8,8 +8,8 @@ public class MediaPageTableRow extends Row {
 
     private Date uplodadedDate;
 
-    public MediaPageTableRow(String name, String author) {
-        super(name, author);
+    public MediaPageTableRow(String name, String author, String id) {
+        super(name, author, id);
 
 
     }

@@ -1,8 +1,7 @@
 package elements;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import utils.Browser;
+
 
 public class Table {
 
@@ -12,6 +11,8 @@ public class Table {
 
     public By rowTitle;
     public By authorTitle = By.xpath("//tbody[@id='the-list']//td[@class='author column-author']/a");
+    public By rowCheckbox = By.xpath("//input[contains(@id, 'cb-select')]");
+    public By rowId = By.xpath("//tr[contains(@id, 'post-')]");
 
 
 }

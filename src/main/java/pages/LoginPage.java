@@ -42,4 +42,11 @@ public class LoginPage implements Page {
         driver.get(LOGIN_URL);
         Wait.isElementPresented(driver.findElement(loginInput));
     }
+
+    @Override
+    public boolean isOpened() {
+
+        Wait.isElementPresented(driver.findElement(loginInput));
+        return true;
+    }
 }
