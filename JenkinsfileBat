@@ -1,13 +1,10 @@
 pipeline{
   agent any
-  tools{
-    maven 'maven3'
     stages{
-      stage('Build'){
+      stage('Test'){
         steps{
           bat mvn clean test -Dbrowser=${params.browser} -Dsuit-xml=${params.tests}.xml
         }
       }
     }
-  }
 }
