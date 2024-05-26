@@ -6,6 +6,7 @@ import factories.PageFactory;
 import io.qameta.allure.Description;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
+import listeners.AllureReportListener;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import pages.CreatePage;
@@ -16,6 +17,7 @@ import utils.Logging;
 
 import java.lang.reflect.Method;
 
+@Listeners({AllureReportListener.class})
 public class PostsPageTest extends BaseTest {
 
     PostsOrdinaryPage postsPage = PageFactory.getPostsPage(driver);
