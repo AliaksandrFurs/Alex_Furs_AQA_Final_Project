@@ -2,9 +2,16 @@ pipeline{
   agent any
     stages{
       stage('Test'){
+try{
         steps{
           bat "mvn clean test -Dbrowser=${params.browser} -Dsuit-xml=${params.tests}.xml"
+        }finally{
+allure includeProperties:
+   false,
+   jdk: '',
+   results: [[path: 'build/allure-results']]
         }
       }
     }
+}
 }
