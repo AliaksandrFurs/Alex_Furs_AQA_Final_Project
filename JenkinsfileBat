@@ -6,5 +6,19 @@ pipeline{
           bat "mvn clean test -Dbrowser=${params.browser} -Dsuit-xml=${params.tests}.xml"
         }
       }
+    stage('reports') {
+        steps {
+          script {
+            allure([
+                    includeProperties: false,
+                    jdk: '',
+                    properties: [],
+                    reportBuildPolicy: 'ALWAYS',
+                    results: [[path: 'target/allure-results']]
+          ])
+        }
+      }
     }
+  }
 }
+
