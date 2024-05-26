@@ -48,11 +48,11 @@ public class PostsPageTest extends BaseTest {
     @AfterClass(alwaysRun = true)
     public void afterClass(){
         postsPage.ClickOnBarSection(MainMenuBarSectionEnum.POSTS);
-        postsPage.deleteEntity("Test as draft");
+        //postsPage.deleteEntity("Test as draft");
     }
 
-    @Test (priority = 1, groups = "regression")
-    @Severity(SeverityLevel.CRITICAL) @Description("Adding one single post test")
+    @Test (priority = 1, groups = {"smoke", "regression"})
+    @Severity(SeverityLevel.CRITICAL) @Description("Adding one single post test") @Parameters("browser")
     public void addOnePostTest(){
         Logging.logInfo("Test " + testName + " starts");
         postsPage.openAddingEntityPage();
@@ -63,7 +63,7 @@ public class PostsPageTest extends BaseTest {
     }
 
     @Test (priority = 2, groups = "regression")
-    @Severity(SeverityLevel.NORMAL) @Description("Find specific post")
+    @Severity(SeverityLevel.NORMAL) @Description("Find specific post") @Parameters("browser")
     public void findPostTest(){
         Logging.logInfo("Test " + testName + " started");
         postsPage.searchEntity(Post.getPostTitle());
@@ -71,8 +71,8 @@ public class PostsPageTest extends BaseTest {
         Logging.logInfo("Test " + testName + " finished");
     }
 
-    @Test (priority = 3, groups = "smoke")
-    @Severity(SeverityLevel.CRITICAL) @Description("Delete post test")
+    @Test (priority = 3, groups = {"smoke", "regression"})
+    @Severity(SeverityLevel.CRITICAL) @Description("Delete post test") @Parameters("browser")
     public void deletePostTest(){
         Logging.logInfo("Test " + testName + " started");
         postsPage.deleteEntity(Post.getPostTitle());
@@ -81,7 +81,7 @@ public class PostsPageTest extends BaseTest {
     }
 
     @Test (priority = 4, groups = "regression")
-    @Severity(SeverityLevel.NORMAL) @Description("Save post as draft")
+    @Severity(SeverityLevel.NORMAL) @Description("Save post as draft") @Parameters("browser")
     public void addPostDraftTest(){
         Logging.logInfo("Test " + testName + " started");
         postsPage.openAddingEntityPage();

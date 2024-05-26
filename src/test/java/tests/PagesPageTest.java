@@ -39,7 +39,7 @@ public class PagesPageTest extends BaseTest{
     @AfterClass(alwaysRun = true)
     public void afterClass(){
         pagesPage.ClickOnBarSection(MainMenuBarSectionEnum.PAGES);
-        pagesPage.deleteEntity("Test as draft");
+        //pagesPage.deleteEntity("Test as draft");
     }
 
     @BeforeMethod(alwaysRun = true)
@@ -52,9 +52,9 @@ public class PagesPageTest extends BaseTest{
         pagesPage.ClickOnBarSection(MainMenuBarSectionEnum.PAGES);
     }
 
-    @Test(priority = 1, groups = "regression")
+    @Test(priority = 1, groups = {"smoke", "regression"})
     @Severity(SeverityLevel.CRITICAL) @Description("Adding one single page test")
-    public void addOnePostTest(){
+    public void addOnePageTest(){
         Logging.logInfo("Test " + testName + " starts");
         pagesPage.openAddingEntityPage();
         createPage.addNewEntity(Page.getPostTitle(), Page.getPostBody());
@@ -72,7 +72,7 @@ public class PagesPageTest extends BaseTest{
         Logging.logInfo("Test " + testName + " finished");
     }
 
-    @Test (priority = 3, groups = "smoke")
+    @Test (priority = 3, groups = {"smoke", "regression"})
     @Severity(SeverityLevel.CRITICAL) @Description("Delete page test")
     public void deletePageTest(){
         Logging.logInfo("Test " + testName + " started");

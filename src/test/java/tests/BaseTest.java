@@ -1,13 +1,12 @@
 package tests;
 
+import factories.DriverFactory;
 import org.openqa.selenium.WebDriver;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.*;
 import utils.Browser;
 import utils.Configuration;
 import utils.Logging;
+import utils.browserconfiguration.ChromeConfiguration;
 
 public class BaseTest {
 
@@ -17,18 +16,16 @@ public class BaseTest {
     static WebDriver driver = Browser.getDriver();
     static boolean isUserLogin = false;
 
-    @BeforeSuite(alwaysRun = true)
+    @BeforeClass(alwaysRun = true)
     public void basicSetup(){
-
         browser.browserSetup();
         Logging.logInfo("Browser setup successfull");
     }
 
-    @AfterSuite(description = "Close browser", alwaysRun = true)
-    static void close (){
-
+    @AfterClass(description = "Close browser", alwaysRun = true)
+     void close (){
         browser.browserClose();
         Logging.logInfo("Browser close");
-
     }
+
 }

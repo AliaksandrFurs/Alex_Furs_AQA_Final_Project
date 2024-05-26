@@ -12,7 +12,7 @@ public class Configuration {
     public static Properties getConfigurationProperties() {
         if (configurationProperties == null) {
             try {
-                configurationProperties = new Properties();
+                configurationProperties = new Properties(System.getProperties());
                 configurationProperties.load(new FileInputStream("configuration.properties"));
             } catch (IOException e) {
                 Logging.logError("Check your configuration file");
@@ -41,6 +41,7 @@ public class Configuration {
 
     public static String getLogin(){
         return Configuration.getCredentialeProperties().getProperty("login");
+
     }
 
     public static String getPassword(){
