@@ -16,7 +16,7 @@ public class CreatePage implements BasicCreatePageActions {
     private final static String PAGE_URL = "https://wordpress-test-app-for-selenium.azurewebsites.net/wp-admin/post-new.php?post_type=page";
     private final static String POST_URL = "https://wordpress-test-app-for-selenium.azurewebsites.net/wp-admin/post-new.php";
 
-    @FindBy(name = "editor-canvas")
+    @FindBy(xpath = "//div//iframe[@name='editor-canvas']")
     WebElement iframe;
 
     public CreatePage(WebDriver driver){

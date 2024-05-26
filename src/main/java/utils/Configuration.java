@@ -6,20 +6,7 @@ import java.util.Properties;
 
 public class Configuration {
 
-    private static Properties configurationProperties;
     private static Properties credentialeProperties;
-
-    public static Properties getConfigurationProperties() {
-        if (configurationProperties == null) {
-            try {
-                configurationProperties = new Properties(System.getProperties());
-                configurationProperties.load(new FileInputStream("configuration.properties"));
-            } catch (IOException e) {
-                Logging.logError("Check your configuration file");
-            }
-        }
-        return configurationProperties;
-    }
 
     public static Properties getCredentialeProperties(){
         if(credentialeProperties == null){
@@ -33,10 +20,6 @@ public class Configuration {
             }
         }
         return credentialeProperties;
-    }
-
-    public static String getBrowserName(){
-        return Configuration.getConfigurationProperties().getProperty("browser");
     }
 
     public static String getLogin(){
@@ -55,7 +38,5 @@ public class Configuration {
     public static String getInvalidPassword(){
         return Configuration.getCredentialeProperties().getProperty("invalidPassword");
     }
-
-
 }
 
