@@ -16,13 +16,13 @@ public class BaseTest {
     static WebDriver driver = Browser.getDriver();
     static boolean isUserLogin = false;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeSuite(alwaysRun = true)
     public void basicSetup(){
         browser.browserSetup();
         Logging.logInfo("Browser setup successfull");
     }
 
-    @AfterClass(description = "Close browser", alwaysRun = true)
+    @AfterSuite(description = "Close browser", alwaysRun = true)
      void close (){
         browser.browserClose();
         Logging.logInfo("Browser close");
