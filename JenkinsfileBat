@@ -3,7 +3,7 @@ pipeline{
     stages{
       stage('Test'){
         steps{
-          "bat mvn clean test -Dbrowser=${params.browser} -Dsuit-xml=${params.tests}.xml"
+          bat "mvn clean test -Dbrowser=${params.browser} -Dsuit-xml=${params.tests}.xml"
         }
       }
     }
