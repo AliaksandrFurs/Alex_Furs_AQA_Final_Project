@@ -1,6 +1,9 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
 
 <suite name="Testing WordPress in final project">
+    <listeners>
+        <listener class-name="listeners.AllureReportListener"/>
+    </listeners>
     <test name="regression" preserve-order="true">
         <groups>
             <run>
