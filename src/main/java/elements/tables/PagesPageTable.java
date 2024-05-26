@@ -2,7 +2,6 @@ package elements.tables;
 
 import elements.interfaces.Table;
 import elements.rows.PagesPageTableRow;
-import elements.rows.PostPageTableRow;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;

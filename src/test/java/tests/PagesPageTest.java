@@ -33,15 +33,12 @@ public class PagesPageTest extends BaseTest{
             isUserLogin = true;
         }
         pagesPage.ClickOnBarSection(MainMenuBarSectionEnum.PAGES);
-        //createPage.addNewEntity(Page.getPostTitle(), Page.getPostBody());
-        //pagesPage.openPage();
         Logging.logInfo("Pages page opened successfully");
     }
 
     @AfterClass(alwaysRun = true)
     public void afterClass(){
         pagesPage.ClickOnBarSection(MainMenuBarSectionEnum.PAGES);
-        //pagesPage.deleteEntity("Test as draft");
     }
 
     @BeforeMethod(alwaysRun = true)

@@ -17,10 +17,10 @@ public class Browser {
         switch(browserName){
             case "CHROME":
                 driver = DriverFactory.getChromeDriver(new ChromeConfiguration());
-                break;
+                //break;
             case "FIREFOX":
                 driver = DriverFactory.getGeckoDriver(new FirefoxConfiguration());
-                break;
+                //break;
         }
     }
 

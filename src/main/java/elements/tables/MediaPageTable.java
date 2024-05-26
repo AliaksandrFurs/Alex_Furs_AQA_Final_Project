@@ -2,12 +2,9 @@ package elements.tables;
 
 import elements.rows.MediaPageTableRow;
 import elements.Table;
-import elements.rows.PostPageTableRow;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import utils.Logging;
 
 import java.util.ArrayList;
 import java.util.List;

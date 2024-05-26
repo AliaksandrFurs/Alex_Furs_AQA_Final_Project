@@ -32,8 +32,6 @@ public class PostsPageTest extends BaseTest {
             isUserLogin = true;
         }
         postsPage.ClickOnBarSection(MainMenuBarSectionEnum.POSTS);
-        //createPage.addNewEntity(Post.getPostTitle(), Post.getPostBody());
-        //postsPage.openPage();
         Logging.logInfo("Posts page opened successfully");
     }
 
@@ -50,7 +48,6 @@ public class PostsPageTest extends BaseTest {
     @AfterClass(alwaysRun = true)
     public void afterClass(){
         postsPage.ClickOnBarSection(MainMenuBarSectionEnum.POSTS);
-        //postsPage.deleteEntity("Test as draft");
     }
 
     @Test (priority = 1, groups = {"smoke", "regression"})
