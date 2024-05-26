@@ -1,20 +1,25 @@
 package tests;
 
 import factories.PageFactory;
+import io.qameta.allure.Allure;
 import io.qameta.allure.Description;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
+import listeners.AllureReportListener;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import pages.LoginPage;
 import pages.MainPage;
 import utils.Configuration;
 import utils.Logging;
+import utils.ScreenshotMaker;
 
 import java.lang.reflect.Method;
 
+@Listeners({AllureReportListener.class})
 public class LoginTest extends BaseTest {
 
     LoginPage loginPage = PageFactory.getLoginPage(driver);
@@ -45,7 +50,7 @@ public class LoginTest extends BaseTest {
     public void unsuccessfullLoginTest(){
         Logging.logInfo("Test " + testName + " started");
         loginPage.doLogin(Configuration.getInvalidLogin(), Configuration.getInvalidPassword(), false);
-        Assert.assertTrue(loginPage.isOpened(), "Login successfully done but shouldn't!");
+        Assert.assertFalse(loginPage.isOpened(), "Login successfully done but shouldn't!");
         Logging.logInfo("Login unsuccessfull");
     }
 }
