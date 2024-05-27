@@ -1,5 +1,6 @@
 package pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import utils.Wait;
@@ -19,6 +20,7 @@ public class LoginPage {
         this.driver = driver;
     }
 
+    @Step("Login to wordpress using credentiales")
     public void doLogin(String login, String password, boolean isLoginRemember){
         driver.findElement(loginInput).clear();
         driver.findElement(loginInput).sendKeys(login);
@@ -30,11 +32,13 @@ public class LoginPage {
 
     }
 
+    @Step("Open login page")
     public void openPage() {
         driver.get(LOGIN_URL);
         Wait.isElementPresented(driver.findElement(loginInput));
     }
 
+    @Step("Verify is login page opened successfully")
     public boolean isOpened() {
         Wait.isElementPresented(driver.findElement(invalidLoginLabel));
         return true;

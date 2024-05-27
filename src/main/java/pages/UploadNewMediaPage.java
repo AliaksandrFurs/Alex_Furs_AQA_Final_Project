@@ -1,6 +1,7 @@
 package pages;
 
 import elements.interfaces.Page;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -27,17 +28,20 @@ public class UploadNewMediaPage extends BasePage implements Page {
     }
 
     @Override
+    @Step("Open meadi library page")
     public void openPage() {
         driver.get(URL);
         Wait.isElementPresented(driver.findElement(pageNameLocator));
     }
 
     @Override
+    @Step("Verify is media library page is opened successfully")
     public boolean isOpened() {
         Wait.isElementPresented(driver.findElement(pageNameLocator));
         return true;
     }
 
+    @Step("Upload one media")
     public void uploadNewImage(String fileName){
         if(fileName.equals("Screenshot_1")){
             uploadButton.sendKeys("C:\\Users\\37529\\IdeaProjects\\Alex_Furs_AQA_Final_Project\\src\\test\\resources\\Screenshot_1.jpg");
@@ -49,20 +53,4 @@ public class UploadNewMediaPage extends BasePage implements Page {
             driver.navigate().back();
         }
     }
-
-    public void uploadEmptyImage(){
-        submitButton.click();
-        Wait.isElementPresented(driver.findElement(errorUpload));
-    }
-
-    public boolean isErrorPageOpens(){
-        Wait.isElementPresented(driver.findElement(errorUpload));
-        if(driver.findElement(errorUpload).getText().equals("No file was uploaded.")){
-            return true;
-        }else{
-            return false;
-        }
-    }
-
-
 }

@@ -5,6 +5,7 @@ import elements.interfaces.MainMenuBarActions;
 import elements.interfaces.Page;
 import elements.tables.MediaPageTable;
 import enums.MainMenuBarSectionEnum;
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -30,6 +31,7 @@ public class MediaLibraryOrdinaryPage extends BasePage implements Page, BasicOrd
     WebElement dropdown;
 
     @Override
+    @Step("Open media page")
     public void openPage() {
         driver.get(MEDIA_URL);
         Wait.isElementPresented(driver.findElement(pageNameLocator));
@@ -38,12 +40,14 @@ public class MediaLibraryOrdinaryPage extends BasePage implements Page, BasicOrd
     }
 
     @Override
+    @Step("Verify is media page opened successfully")
     public boolean isOpened() {
         Wait.isElementPresented(driver.findElement(pageNameLocator));
         return true;
     }
 
     @Override
+    @Step("Search media entity")
     public void searchEntity(String entityName) {
         mediaPageTable.deleteTableRows();
         driver.findElement(mediaSearchInput).sendKeys(entityName);
@@ -52,6 +56,7 @@ public class MediaLibraryOrdinaryPage extends BasePage implements Page, BasicOrd
     }
 
     @Override
+    @Step("Verify is media entity presented on page")
     public boolean isEntityAvailable(String entityName) {
         if(mediaPageTable.getAllRowsTitle().size() > 0){
             if(mediaPageTable.getRowByTitle(entityName).getName().equals(entityName))
@@ -61,6 +66,7 @@ public class MediaLibraryOrdinaryPage extends BasePage implements Page, BasicOrd
     }
 
     @Override
+    @Step("Delete media entity")
     public void deleteEntity(String enityName) {
         if(actionDropdownSelect == null){
             actionDropdownSelect = new Select(dropdown);
@@ -75,6 +81,7 @@ public class MediaLibraryOrdinaryPage extends BasePage implements Page, BasicOrd
     }
 
     @Override
+    @Step("Open adding media page by clicking on button")
     public void openAddingEntityPage() {
         driver.findElement(addNewEntityButton).click();
     }
@@ -88,11 +95,13 @@ public class MediaLibraryOrdinaryPage extends BasePage implements Page, BasicOrd
     }
 
     @Override
+    @Step("Click on top bar section")
     public BasePage ClickOnBarSection(MainMenuBarSectionEnum sectionName) {
         return mainMenuBar.ClickOnBarSection(sectionName);
     }
 
     @Override
+    @Step("Verify is main menu bar section presented")
     public boolean isSectionPresented(MainMenuBarSectionEnum sectionName) {
         return false;
     }

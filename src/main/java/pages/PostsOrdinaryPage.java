@@ -6,6 +6,7 @@ import elements.interfaces.Page;
 import elements.rows.PostPageTableRow;
 import elements.tables.PostsPageTable;
 import enums.MainMenuBarSectionEnum;
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -32,6 +33,7 @@ public class PostsOrdinaryPage extends BasePage implements Page, BasicOrdinaryPa
     }
 
     @Override
+    @Step("Open posts page")
     public void openPage() {
         driver.get(POSTS_URL);
         Wait.isElementPresented(driver.findElement(pageNameLocator));
@@ -40,12 +42,14 @@ public class PostsOrdinaryPage extends BasePage implements Page, BasicOrdinaryPa
     }
 
     @Override
+    @Step("Verify is posts page is succcessfully opened")
     public boolean isOpened() {
         Wait.isElementPresented(driver.findElement(pageNameLocator));
         return true;
     }
 
     @Override
+    @Step("Search post")
     public void searchEntity(String entityName) {
         postsPageTable.deleteTableRows();
         driver.findElement(searchInput).sendKeys(entityName);
@@ -54,6 +58,7 @@ public class PostsOrdinaryPage extends BasePage implements Page, BasicOrdinaryPa
     }
 
     @Override
+    @Step("Verify is post is presented on a page")
     public boolean isEntityAvailable(String entityName) {
         if(postsPageTable.getAllRowsTitle().size() > 0){
             if(postsPageTable.getRowByTitle(entityName).getName().equals(entityName))
@@ -63,6 +68,7 @@ public class PostsOrdinaryPage extends BasePage implements Page, BasicOrdinaryPa
     }
 
     @Override
+    @Step("Delete post entity")
     public void deleteEntity(String postName) {
         if(actionDropdownSelect == null){
             actionDropdownSelect = new Select(dropdown);
@@ -76,11 +82,13 @@ public class PostsOrdinaryPage extends BasePage implements Page, BasicOrdinaryPa
     }
 
     @Override
+    @Step("Open creating entity page by button")
     public void openAddingEntityPage() {
         driver.findElement(addNewEntityButton).click();
     }
 
     @Override
+    @Step("Click on post entity title from list")
     public void clickOnEntity(String entityName) {
         searchEntity(entityName);
         if(isEntityAvailable(entityName)){
@@ -90,15 +98,18 @@ public class PostsOrdinaryPage extends BasePage implements Page, BasicOrdinaryPa
     }
 
     @Override
+    @Step("C;ick on main menu bar section")
     public BasePage ClickOnBarSection(MainMenuBarSectionEnum sectionName) {
         return mainMenuBar.ClickOnBarSection(sectionName);
     }
 
     @Override
+    @Step("Verify is main menu bar section presented")
     public boolean isSectionPresented(MainMenuBarSectionEnum sectionName) {
         return false;
     }
 
+    @Step("Verify is post entity was previously updated")
     public boolean isEntityWasUpdate(String entityName){
         if(isEntityAvailable(entityName)){
             PostPageTableRow currentRow = postsPageTable.getRowByTitle(entityName);
@@ -112,6 +123,7 @@ public class PostsOrdinaryPage extends BasePage implements Page, BasicOrdinaryPa
         }
     }
 
+    @Step("Verisy is post is a draft")
     public boolean isPostDraft(String postTitle){
         return postsPageTable.isTitleDraft(postTitle);
     }
