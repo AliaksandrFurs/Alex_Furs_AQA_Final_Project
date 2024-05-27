@@ -50,7 +50,7 @@ public class LoginTest extends BaseTest {
     public void unsuccessfullLoginTest(){
         Logging.logInfo("Test " + testName + " started");
         loginPage.doLogin(Configuration.getInvalidLogin(), Configuration.getInvalidPassword(), false);
-        Assert.assertFalse(loginPage.isOpened(), "Login successfully done but shouldn't!");
+        Assert.assertFalse(loginPage.isOpened(), "Login successfully done but shouldn't!"); //test should be failed for demonstration!
         Logging.logInfo("Login unsuccessfull");
     }
 }

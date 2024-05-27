@@ -1,5 +1,6 @@
 package tests;
 
+import business.Page;
 import business.Post;
 import enums.MainMenuBarSectionEnum;
 import factories.PageFactory;
@@ -57,7 +58,7 @@ public class PostsPageTest extends BaseTest {
         postsPage.openAddingEntityPage();
         createPage.addNewEntity(Post.getPostTitle(), Post.getPostBody());
         postsPage.searchEntity(Post.getPostTitle());
-        Assert.assertTrue(postsPage.isEntityAvailable(), "Post was not added");
+        Assert.assertTrue(postsPage.isEntityAvailable(Post.getPostTitle()), "Post was not added");
         Logging.logInfo("Test " + testName + " finished");
     }
 
@@ -66,20 +67,20 @@ public class PostsPageTest extends BaseTest {
     public void findPostTest(){
         Logging.logInfo("Test " + testName + " started");
         postsPage.searchEntity(Post.getPostTitle());
-        Assert.assertTrue(postsPage.isEntityAvailable(), "Post does not found");
+        Assert.assertTrue(postsPage.isEntityAvailable(Post.getPostTitle()), "Post does not found");
         Logging.logInfo("Test " + testName + " finished");
     }
 
-    @Test (priority = 3, groups = {"smoke", "regression"})
+    @Test (priority = 5, groups = {"smoke", "regression"})
     @Severity(SeverityLevel.CRITICAL) @Description("Delete post test") @Parameters("browser")
     public void deletePostTest(){
         Logging.logInfo("Test " + testName + " started");
-        postsPage.deleteEntity(Post.getPostTitle());
-        Assert.assertFalse(postsPage.isEntityAvailable(), "Post still available and was not delete");
+        postsPage.deleteEntity(Post.getNewPostTitle());
+        Assert.assertFalse(postsPage.isEntityAvailable(Post.getNewPostTitle()), "Post still available and was not delete");
         Logging.logInfo("Test " + testName + " finished");
     }
 
-    @Test (priority = 4, groups = "regression")
+    @Test (priority = 3, groups = "regression")
     @Severity(SeverityLevel.NORMAL) @Description("Save post as draft") @Parameters("browser")
     public void addPostDraftTest(){
         Logging.logInfo("Test " + testName + " started");
@@ -87,5 +88,15 @@ public class PostsPageTest extends BaseTest {
         createPage.saveEntityAsDraft("Test as draft", "Test as draft");
         postsPage.searchEntity("Test as draft");
         Assert.assertTrue(postsPage.isPostDraft("Test as draft"), "Post is not draft");
+    }
+
+    @Test(priority = 4, groups = {"smoke", "regression"})
+    @Severity(SeverityLevel.CRITICAL) @Description("Edit existing post")
+    public void editPostTest(){
+        Logging.logInfo("Test " + testName + " started");
+        postsPage.clickOnEntity(Post.getPostTitle());
+        createPage.updateEntity(Post.getNewPostTitle(), Post.getNewPostBody());
+        postsPage.searchEntity(Post.getNewPostTitle());
+        Assert.assertTrue(postsPage.isEntityWasUpdate(Post.getNewPostTitle()), "Post was not edited");
     }
 }

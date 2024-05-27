@@ -7,6 +7,6 @@ public class FirefoxConfiguration {
     private FirefoxOptions firefoxConfiguration = new FirefoxOptions();
 
     public FirefoxConfiguration() {
-        firefoxConfiguration.setHeadless(false);
+
     }
 }

@@ -11,7 +11,7 @@ import utils.browserconfiguration.FirefoxConfiguration;
 public class DriverFactory {
 
     static {
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\37529\\IdeaProjects\\MD-AE1_01_24\\HW9\\Drivers\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "C:\\Users\\37529\\IdeaProjects\\Alex_Furs_AQA_Final_Project\\Drivers\\chromedriver.exe");
         System.setProperty("webdriver.gecko.driver", "C:\\Users\\37529\\IdeaProjects\\Alex_Furs_AQA_Final_Project\\Drivers\\geckodriver.exe");
     }
 

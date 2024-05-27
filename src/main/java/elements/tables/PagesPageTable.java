@@ -14,11 +14,10 @@ import java.util.List;
 public class PagesPageTable extends elements.Table implements Table {
 
     WebDriver driver;
-    private static final String PATTERN = "//tr[@id='%s']//strong/span[contains(text(), 'Draft')]";
+    private static final String DRAFT_PATTERN = "//tr[@id='%s']//strong/span[contains(text(), 'Draft')]";
+    private static final String TITLE_PATTERN = "//a[contains(text(), '%s')]";
     private List<PagesPageTableRow> tableRows = new ArrayList<>();
-    private List<WebElement> allRowsTitle = new ArrayList<>();
     private List<WebElement> allAuthorTitle = new ArrayList<>();
-    private List<WebElement> allId = new ArrayList<>();
 
     public PagesPageTable(WebDriver driver) {
         this.driver = driver;
@@ -29,22 +28,22 @@ public class PagesPageTable extends elements.Table implements Table {
     public void createTableRows() {
         updateRowsNumber();
 
-        allRowsTitle.clear();
+        getAllRowsTitle().clear();
         allAuthorTitle.clear();
-        allId.clear();
+        getAllId().clear();
         tableRows.clear();
 
-        allRowsTitle = driver.findElements(rowTitle);
+        setAllRowsTitle(driver.findElements(rowTitle));
         allAuthorTitle = driver.findElements(authorTitle);
-        allId = driver.findElements(rowId);
+        setAllId(driver.findElements(rowId));
 
         for(int i=0; i<rowsNumber; i++){
-            tableRows.add(new PagesPageTableRow(allRowsTitle.get(i).getText(), allAuthorTitle.get(i).getText(), allId.get(i).getAttribute("id")));
+            tableRows.add(new PagesPageTableRow(getAllRowsTitle().get(i).getText(), allAuthorTitle.get(i).getText(), getAllId().get(i).getAttribute("id")));
         }
 
         for(PagesPageTableRow row: tableRows){
             try{
-                driver.findElement(By.xpath(String.format(PATTERN, row.getId())));
+                driver.findElement(By.xpath(String.format(DRAFT_PATTERN, row.getId())));
                 row.setDraft(true);
             }catch(NoSuchElementException e){
                 row.setDraft(false);
@@ -77,7 +76,22 @@ public class PagesPageTable extends elements.Table implements Table {
         return false;
     }
 
-    public List<WebElement> getAllRowsTitle() {
-        return allRowsTitle;
+    @Override
+    public void clickOnRowTitle(String rowTitle){
+        for(PagesPageTableRow row: tableRows){
+            if(row.getName().equals(rowTitle)){
+                driver.findElement(By.xpath(String.format(TITLE_PATTERN, rowTitle))).click();
+                break;
+            }
+        }
+    }
+
+    public PagesPageTableRow getRowByTitle(String rowTitle){
+        for(PagesPageTableRow row : tableRows){
+            if(row.getName().equals(rowTitle)){
+                return row;
+            }
+        }
+        return null;
     }
 }

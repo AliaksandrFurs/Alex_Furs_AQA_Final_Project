@@ -12,6 +12,7 @@ import utils.Wait;
 
 public class CreatePage implements BasicCreatePageActions {
 
+
     WebDriver driver = Browser.getDriver();
     private final static String PAGE_URL = "https://wordpress-test-app-for-selenium.azurewebsites.net/wp-admin/post-new.php?post_type=page";
     private final static String POST_URL = "https://wordpress-test-app-for-selenium.azurewebsites.net/wp-admin/post-new.php";
@@ -47,6 +48,7 @@ public class CreatePage implements BasicCreatePageActions {
     @Override
     public void addNewEntity(String postTitle, String postBody) {
         driver.switchTo().frame(iframe);
+        //driver.findElement(addTitleField).click();
         driver.findElement(addTitleField).sendKeys(postTitle);
         driver.findElement(addPostBodyField).sendKeys(postBody);
         driver.switchTo().defaultContent();
@@ -64,6 +66,18 @@ public class CreatePage implements BasicCreatePageActions {
         driver.findElement(saveDraftButton).click();
         Wait.isElementPresented(driver.findElement(publishSnackBar));
         Wait.isElementPresented(driver.findElement(By.xpath("//button[contains(text(), 'Saved')]")));
+        dashboardClick();
+    }
+
+    public void updateEntity(String newPostTitle, String newPostBody){
+        driver.switchTo().frame(iframe);
+        driver.findElement(addTitleField).clear();
+        driver.findElement(existingBodyField).clear();
+        driver.findElement(addTitleField).sendKeys(newPostTitle);
+        driver.findElement(existingBodyField).sendKeys(newPostBody);
+        driver.switchTo().defaultContent();
+        driver.findElement(publishButton).click();
+        Wait.isElementPresented(driver.findElement(publishSnackBar));
         dashboardClick();
     }
 }

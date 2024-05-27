@@ -8,7 +8,6 @@ public class ChromeConfiguration {
 
     public ChromeConfiguration(){
 
-        chromeConfiguration.setHeadless(false);
-        chromeConfiguration.setExperimentalOption("excludeSwitches", "disable-popup-blocking");
+        //chromeConfiguration.setExperimentalOption("excludeSwitches", "disable-popup-blocking");
     }
 }

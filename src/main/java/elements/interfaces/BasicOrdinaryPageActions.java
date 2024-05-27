@@ -14,9 +14,12 @@ public interface BasicOrdinaryPageActions {
 
     void searchEntity(String entityName);
 
-    boolean isEntityAvailable();
+    boolean isEntityAvailable(String entityName);
 
     void deleteEntity(String enityName);
 
     void openAddingEntityPage();
+
+    void clickOnEntity(String entityName);
+
 }

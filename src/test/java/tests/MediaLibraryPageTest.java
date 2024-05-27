@@ -55,7 +55,7 @@ public class MediaLibraryPageTest extends BaseTest{
     public void deleteMediaTest(){
         Logging.logInfo("Test " + testName + " started");
         mediaLibraryPage.deleteEntity(Media.getMediaNameTitle());
-        Assert.assertFalse(mediaLibraryPage.isEntityAvailable(), "Media still available and was not delete");
+        Assert.assertFalse(mediaLibraryPage.isEntityAvailable(Media.getMediaNameTitle()), "Media still available and was not delete");
     }
 
     @Test(priority = 1, groups = "regression")
@@ -64,7 +64,7 @@ public class MediaLibraryPageTest extends BaseTest{
         mediaLibraryPage.openAddingEntityPage();
         uploadMediaPage.uploadNewImage(Media.getMediaNameTitle());
         mediaLibraryPage.searchEntity(Media.getMediaNameTitle());
-        Assert.assertTrue(mediaLibraryPage.isEntityAvailable());
+        Assert.assertTrue(mediaLibraryPage.isEntityAvailable(Media.getMediaNameTitle()));
         Logging.logInfo("Test " + testName + " finished");
     }
 

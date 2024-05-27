@@ -1,7 +1,6 @@
 package tests;
 
 import business.Page;
-import enums.AddingEntityTypeEnum;
 import enums.MainMenuBarSectionEnum;
 import factories.PageFactory;
 import io.qameta.allure.Description;
@@ -58,7 +57,7 @@ public class PagesPageTest extends BaseTest{
         pagesPage.openAddingEntityPage();
         createPage.addNewEntity(Page.getPostTitle(), Page.getPostBody());
         pagesPage.searchEntity(Page.getPostTitle());
-        Assert.assertTrue(pagesPage.isEntityAvailable(), "Page was not added");
+        Assert.assertTrue(pagesPage.isEntityAvailable(Page.getPostTitle()), "Page was not added");
         Logging.logInfo("Test " + testName + " finished");
     }
 
@@ -67,20 +66,20 @@ public class PagesPageTest extends BaseTest{
     public void findPageTest(){
         Logging.logInfo("Test " + testName + " started");
         pagesPage.searchEntity(Page.getPostTitle());
-        Assert.assertTrue(pagesPage.isEntityAvailable(), "Page does not found");
+        Assert.assertTrue(pagesPage.isEntityAvailable(Page.getPostTitle()), "Page does not found");
         Logging.logInfo("Test " + testName + " finished");
     }
 
-    @Test (priority = 3, groups = {"smoke", "regression"})
+    @Test (priority = 5, groups = {"smoke", "regression"})
     @Severity(SeverityLevel.CRITICAL) @Description("Delete page test")
     public void deletePageTest(){
         Logging.logInfo("Test " + testName + " started");
-        pagesPage.deleteEntity(Page.getPostTitle());
-        Assert.assertFalse(pagesPage.isEntityAvailable(), "Page still available and was not delete");
+        pagesPage.deleteEntity(Page.getNewPageTitle());
+        Assert.assertFalse(pagesPage.isEntityAvailable(Page.getNewPageTitle()), "Page still available");
         Logging.logInfo("Test " + testName + " finished");
     }
 
-    @Test (priority = 4, groups = "regression")
+    @Test (priority = 3, groups = "regression")
     @Severity(SeverityLevel.NORMAL) @Description("Save page as draft")
     public void addPageDraftTest(){
         Logging.logInfo("Test " + testName + " started");
@@ -88,5 +87,15 @@ public class PagesPageTest extends BaseTest{
         createPage.saveEntityAsDraft("Test as draft", "Test as draft");
         pagesPage.searchEntity("Test as draft");
         Assert.assertTrue(pagesPage.isPageDraft("Test as draft"), "Post is not draft");
+    }
+
+    @Test(priority = 4, groups = {"smoke", "regression"})
+    @Severity(SeverityLevel.CRITICAL) @Description("Edit existing page")
+    public void editPageTest(){
+        Logging.logInfo("Test " + testName + " started");
+        pagesPage.clickOnEntity(Page.getPostTitle());
+        createPage.updateEntity(Page.getNewPageTitle(), Page.getNewPageBody());
+        pagesPage.searchEntity(Page.getNewPageTitle());
+        Assert.assertTrue(pagesPage.isEntityWasUpdate(Page.getNewPageTitle()), "Page was not edited");
     }
 }

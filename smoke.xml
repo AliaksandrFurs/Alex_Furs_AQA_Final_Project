@@ -3,6 +3,7 @@
 <suite name="Testing WordPress in final project">
     <listeners>
         <listener class-name="listeners.AllureReportListener"/>
+        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
     </listeners>
     <test name="smoke" preserve-order="true">
         <groups>

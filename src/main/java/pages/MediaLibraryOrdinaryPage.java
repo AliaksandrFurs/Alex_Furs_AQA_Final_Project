@@ -52,12 +52,12 @@ public class MediaLibraryOrdinaryPage extends BasePage implements Page, BasicOrd
     }
 
     @Override
-    public boolean isEntityAvailable() {
+    public boolean isEntityAvailable(String entityName) {
         if(mediaPageTable.getAllRowsTitle().size() > 0){
-            return true;
-        }else{
-            return false;
+            if(mediaPageTable.getRowByTitle(entityName).getName().equals(entityName))
+                return true;
         }
+        return false;
     }
 
     @Override
@@ -77,6 +77,14 @@ public class MediaLibraryOrdinaryPage extends BasePage implements Page, BasicOrd
     @Override
     public void openAddingEntityPage() {
         driver.findElement(addNewEntityButton).click();
+    }
+
+    @Override
+    public void clickOnEntity(String entityName) {
+        searchEntity(entityName);
+        if(isEntityAvailable(entityName)){
+            mediaPageTable.clickOnRowTitle(entityName);
+        }
     }
 
     @Override

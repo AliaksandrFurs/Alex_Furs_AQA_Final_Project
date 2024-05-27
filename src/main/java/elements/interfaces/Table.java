@@ -2,11 +2,13 @@ package elements.interfaces;
 
 public interface Table {
 
-    public void createTableRows();
+    void createTableRows();
 
-    public void deleteTableRows();
+    void deleteTableRows();
 
-    public void updateRowsNumber();
+    void updateRowsNumber();
 
-    public void selectRows();
+    void selectRows();
+
+    void clickOnRowTitle(String rowTitle);
 }

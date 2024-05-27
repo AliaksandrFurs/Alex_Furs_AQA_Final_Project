@@ -12,10 +12,9 @@ import java.util.List;
 public class MediaPageTable extends Table implements elements.interfaces.Table {
 
     WebDriver driver;
+    private final static String TITLE_PATTERN = "//a[text()[contains(.,'%s)]]";
     private List<MediaPageTableRow> tableRows = new ArrayList<>();
-    private List<WebElement> allRowsTitle = new ArrayList<>();
     private List<WebElement> allAuthorTitle = new ArrayList<>();
-    private List<WebElement> allId = new ArrayList<>();
 
     public MediaPageTable(WebDriver driver) {
         this.driver = driver;
@@ -26,17 +25,17 @@ public class MediaPageTable extends Table implements elements.interfaces.Table {
     public void createTableRows() {
         updateRowsNumber();
 
-        allRowsTitle.clear();
+        getAllRowsTitle().clear();
         allAuthorTitle.clear();
-        allId.clear();
+        getAllId().clear();
         tableRows.clear();
 
-        allRowsTitle = driver.findElements(rowTitle);
+        setAllRowsTitle(driver.findElements(rowTitle));
         allAuthorTitle = driver.findElements(authorTitle);
-        allId = driver.findElements(rowId);
+        setAllId(driver.findElements(rowId));
 
         for(int i=0; i<rowsNumber; i++){
-            tableRows.add(new MediaPageTableRow(allRowsTitle.get(i).getText(), allAuthorTitle.get(i).getText(), allId.get(i).getAttribute("id")));
+            tableRows.add(new MediaPageTableRow(getAllRowsTitle().get(i).getText(), allAuthorTitle.get(i).getText(), getAllId().get(i).getAttribute("id")));
         }
     }
 
@@ -56,7 +55,22 @@ public class MediaPageTable extends Table implements elements.interfaces.Table {
         driver.findElement(rowCheckbox).click();
     }
 
-    public List<WebElement> getAllRowsTitle() {
-        return allRowsTitle;
+    @Override
+    public void clickOnRowTitle(String rowTitle) {
+        for(MediaPageTableRow row: tableRows){
+            if(row.getName().equals(rowTitle)){
+                driver.findElement(By.xpath(String.format(TITLE_PATTERN, rowTitle))).click();
+                break;
+            }
+        }
+    }
+
+    public MediaPageTableRow getRowByTitle(String rowTitle){
+        for(MediaPageTableRow row : tableRows){
+            if(row.getName().equals(rowTitle)){
+                return row;
+            }
+        }
+        return null;
     }
 }

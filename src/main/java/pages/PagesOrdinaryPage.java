@@ -3,6 +3,7 @@ package pages;
 import elements.interfaces.BasicOrdinaryPageActions;
 import elements.interfaces.MainMenuBarActions;
 import elements.interfaces.Page;
+import elements.rows.PagesPageTableRow;
 import elements.tables.PagesPageTable;
 import enums.MainMenuBarSectionEnum;
 import org.openqa.selenium.WebDriver;
@@ -18,6 +19,7 @@ public class PagesOrdinaryPage extends  BasePage implements Page, BasicOrdinaryP
 
     private Select actionDropdownSelect;
     private PagesPageTable pagesPageTable = new PagesPageTable(driver);
+    private PagesPageTableRow tempRow;
 
     @FindBy(id = "bulk-action-selector-top")
     WebElement dropdown;
@@ -51,12 +53,12 @@ public class PagesOrdinaryPage extends  BasePage implements Page, BasicOrdinaryP
     }
 
     @Override
-    public boolean isEntityAvailable() {
+    public boolean isEntityAvailable(String entityName) {
         if(pagesPageTable.getAllRowsTitle().size() > 0){
+            if(pagesPageTable.getRowByTitle(entityName).getName().equals(entityName));
             return true;
-        }else{
-            return false;
         }
+        return false;
     }
 
     @Override
@@ -77,12 +79,6 @@ public class PagesOrdinaryPage extends  BasePage implements Page, BasicOrdinaryP
         driver.findElement(addNewEntityButton).click();
     }
 
-    public boolean isPageDraft(String postTitle){
-
-        //findPost(postTitle);
-        return pagesPageTable.isTitleDraft(postTitle);
-    }
-
     @Override
     public BasePage ClickOnBarSection(MainMenuBarSectionEnum sectionName) {
         return mainMenuBar.ClickOnBarSection(sectionName);
@@ -91,5 +87,31 @@ public class PagesOrdinaryPage extends  BasePage implements Page, BasicOrdinaryP
     @Override
     public boolean isSectionPresented(MainMenuBarSectionEnum sectionName) {
         return false;
+    }
+
+    @Override
+    public void clickOnEntity(String entityName){
+        searchEntity(entityName);
+        if(isEntityAvailable(entityName)){
+            tempRow = pagesPageTable.getRowByTitle(entityName);
+            pagesPageTable.clickOnRowTitle(entityName);
+        }
+    }
+
+    public boolean isPageDraft(String postTitle){
+        return pagesPageTable.isTitleDraft(postTitle);
+    }
+
+    public boolean isEntityWasUpdate(String entityName){
+        if(isEntityAvailable(entityName)){
+            PagesPageTableRow currentRow = pagesPageTable.getRowByTitle(entityName);
+            if(tempRow.getId().equals(currentRow.getId())){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
     }
 }
