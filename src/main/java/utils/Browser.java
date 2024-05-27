@@ -12,7 +12,7 @@ public class Browser {
 
     public Browser(){
 
-        String browserName = "CHROME";
+        String browserName = System.getProperty("browser");
 
         switch(browserName){
             case "CHROME":
