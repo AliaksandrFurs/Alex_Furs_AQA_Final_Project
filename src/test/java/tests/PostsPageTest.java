@@ -1,6 +1,5 @@
 package tests;
 
-import business.Page;
 import business.Post;
 import enums.MainMenuBarSectionEnum;
 import factories.PageFactory;
@@ -52,7 +51,7 @@ public class PostsPageTest extends BaseTest {
     }
 
     @Test (priority = 1, groups = {"smoke", "regression"})
-    @Severity(SeverityLevel.CRITICAL) @Description("Adding one single post test") @Parameters("browser")
+    @Severity(SeverityLevel.CRITICAL) @Description("Adding one single post test")
     public void addOnePostTest(){
         Logging.logInfo("Test " + testName + " starts");
         postsPage.openAddingEntityPage();
@@ -63,7 +62,7 @@ public class PostsPageTest extends BaseTest {
     }
 
     @Test (priority = 2, groups = "regression")
-    @Severity(SeverityLevel.NORMAL) @Description("Find specific post") @Parameters("browser")
+    @Severity(SeverityLevel.NORMAL) @Description("Find specific post")
     public void findPostTest(){
         Logging.logInfo("Test " + testName + " started");
         postsPage.searchEntity(Post.getPostTitle());
@@ -72,7 +71,7 @@ public class PostsPageTest extends BaseTest {
     }
 
     @Test (priority = 5, groups = {"smoke", "regression"})
-    @Severity(SeverityLevel.CRITICAL) @Description("Delete post test") @Parameters("browser")
+    @Severity(SeverityLevel.CRITICAL) @Description("Delete post test")
     public void deletePostTest(){
         Logging.logInfo("Test " + testName + " started");
         postsPage.deleteEntity(Post.getNewPostTitle());
@@ -81,7 +80,7 @@ public class PostsPageTest extends BaseTest {
     }
 
     @Test (priority = 3, groups = "regression")
-    @Severity(SeverityLevel.NORMAL) @Description("Save post as draft") @Parameters("browser")
+    @Severity(SeverityLevel.NORMAL) @Description("Save post as draft")
     public void addPostDraftTest(){
         Logging.logInfo("Test " + testName + " started");
         postsPage.openAddingEntityPage();

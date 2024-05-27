@@ -17,4 +17,8 @@ public class Wait {
 
         wait.until(ExpectedConditions.visibilityOfAllElements(element));
     }
+
+    public static void isElementDisplayed(WebElement element){
+        wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(element));
+    }
 }

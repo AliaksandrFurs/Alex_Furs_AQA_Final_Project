@@ -49,8 +49,8 @@ public class LoginTest extends BaseTest {
     @Severity(SeverityLevel.CRITICAL) @Description("Unsuccessfull login test")
     public void unsuccessfullLoginTest(){
         Logging.logInfo("Test " + testName + " started");
-        loginPage.doLogin(Configuration.getInvalidLogin(), Configuration.getInvalidPassword(), false);
-        Assert.assertFalse(loginPage.isOpened(), "Login successfully done but shouldn't!"); //test should be failed for demonstration!
+        loginPage.doLogin(Configuration.getLogin(), Configuration.getPassword(), false);
+        Assert.assertFalse(mainPage.isOpened(), "Login successfully done but shouldn't!"); //test should be failed for demonstration!
         Logging.logInfo("Login unsuccessfull");
     }
 }

@@ -47,6 +47,8 @@ public class CreatePage implements BasicCreatePageActions {
 
     @Override
     public void addNewEntity(String postTitle, String postBody) {
+        Wait.isElementDisplayed(iframe);
+        driver.switchTo().defaultContent();
         driver.switchTo().frame(iframe);
         //driver.findElement(addTitleField).click();
         driver.findElement(addTitleField).sendKeys(postTitle);
