@@ -17,7 +17,10 @@ public class AllureReportListener implements ITestListener {
 
     @Override
     public void onTestSuccess(ITestResult result) {
-        ITestListener.super.onTestSuccess(result);
+        WebDriver driver = Browser.getDriver();
+        if(driver instanceof WebDriver && driver != null){
+            screenshot(driver);
+        }
     }
 
     @Override
@@ -53,7 +56,7 @@ public class AllureReportListener implements ITestListener {
         ITestListener.super.onFinish(context);
     }
 
-    @Attachment(value = "Screenshot", type = "image/png")
+    @Attachment()
     public static byte[] screenshot(WebDriver driver) {
         return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
     }

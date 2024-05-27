@@ -50,7 +50,6 @@ public class CreatePage implements BasicCreatePageActions {
         Wait.isElementDisplayed(iframe);
         driver.switchTo().defaultContent();
         driver.switchTo().frame(iframe);
-        //driver.findElement(addTitleField).click();
         driver.findElement(addTitleField).sendKeys(postTitle);
         driver.findElement(addPostBodyField).sendKeys(postBody);
         driver.switchTo().defaultContent();
@@ -61,6 +60,8 @@ public class CreatePage implements BasicCreatePageActions {
 
     @Override
     public void saveEntityAsDraft(String postTitle, String postBody) {
+        Wait.isElementDisplayed(iframe);
+        driver.switchTo().defaultContent();
         driver.switchTo().frame(iframe);
         driver.findElement(addTitleField).sendKeys(postTitle);
         driver.findElement(addPostBodyField).sendKeys(postBody);
@@ -72,6 +73,8 @@ public class CreatePage implements BasicCreatePageActions {
     }
 
     public void updateEntity(String newPostTitle, String newPostBody){
+        Wait.isElementDisplayed(iframe);
+        driver.switchTo().defaultContent();
         driver.switchTo().frame(iframe);
         driver.findElement(addTitleField).clear();
         driver.findElement(existingBodyField).clear();

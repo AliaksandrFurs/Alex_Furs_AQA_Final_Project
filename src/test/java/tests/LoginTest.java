@@ -1,7 +1,6 @@
 package tests;
 
 import factories.PageFactory;
-import io.qameta.allure.Allure;
 import io.qameta.allure.Description;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
@@ -15,7 +14,6 @@ import pages.LoginPage;
 import pages.MainPage;
 import utils.Configuration;
 import utils.Logging;
-import utils.ScreenshotMaker;
 
 import java.lang.reflect.Method;
 
@@ -49,8 +47,8 @@ public class LoginTest extends BaseTest {
     @Severity(SeverityLevel.CRITICAL) @Description("Unsuccessfull login test")
     public void unsuccessfullLoginTest(){
         Logging.logInfo("Test " + testName + " started");
-        loginPage.doLogin(Configuration.getLogin(), Configuration.getPassword(), false);
-        Assert.assertFalse(mainPage.isOpened(), "Login successfully done but shouldn't!"); //test should be failed for demonstration!
+        loginPage.doLogin(Configuration.getInvalidLogin(), Configuration.getInvalidPassword(), false);
+        Assert.assertTrue(loginPage.isOpened());
         Logging.logInfo("Login unsuccessfull");
     }
 }
