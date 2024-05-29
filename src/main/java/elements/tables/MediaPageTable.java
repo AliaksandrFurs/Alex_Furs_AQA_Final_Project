@@ -11,6 +11,8 @@ import java.util.List;
 
 public class MediaPageTable extends Table implements elements.interfaces.Table {
 
+
+
     WebDriver driver;
     private final static String TITLE_PATTERN = "//a[text()[contains(.,'%s)]]";
     private List<MediaPageTableRow> tableRows = new ArrayList<>();
