@@ -62,6 +62,9 @@ public class PagesOrdinaryPage extends  BasePage implements Page, BasicOrdinaryP
         if(pagesPageTable.getAllRowsTitle().size() > 0){
             if(pagesPageTable.getRowByTitle(entityName).getName().equals(entityName));
             return true;
+        }else if(pagesPageTable.getAllRowsTitle().size() == 0 || pagesPageTable.getAllRowsTitle() == null){
+            Wait.isElementPresented(driver.findElement(noEntityFoundLocator));
+            return false;
         }
         return false;
     }
@@ -73,11 +76,13 @@ public class PagesOrdinaryPage extends  BasePage implements Page, BasicOrdinaryP
             actionDropdownSelect = new Select(dropdown);
         }
         searchEntity(enityName);
-        pagesPageTable.selectRows();
-        actionDropdownSelect.selectByValue("trash");
-        driver.findElement(applyActionButton).click();
-        pagesPageTable.updateRowsNumber();
-        pagesPageTable.createTableRows();
+        if(isEntityAvailable(enityName)) {
+            pagesPageTable.selectRows();
+            actionDropdownSelect.selectByValue("trash");
+            driver.findElement(applyActionButton).click();
+            pagesPageTable.updateRowsNumber();
+            pagesPageTable.createTableRows();
+        }
     }
 
     @Override

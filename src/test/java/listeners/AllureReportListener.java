@@ -8,6 +8,7 @@ import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 import utils.Browser;
+import utils.Logging;
 
 import java.io.ByteArrayInputStream;
 
@@ -15,25 +16,24 @@ import java.io.ByteArrayInputStream;
 public class AllureReportListener implements ITestListener {
     @Override
     public void onTestStart(ITestResult result) {
-        WebDriver driver = Browser.getDriver();
-        if(driver instanceof WebDriver && driver != null){
-            screenshot(driver);
-        }
+        Logging.logInfo("Test " + getTestName(result) + " started");
     }
 
     @Override
     public void onTestSuccess(ITestResult result) {
-        Allure.addAttachment("Screenshot", new ByteArrayInputStream(((TakesScreenshot)Browser.getDriver()).getScreenshotAs(OutputType.BYTES)));
+        //Allure.addAttachment("Screenshot", new ByteArrayInputStream(((TakesScreenshot)Browser.getDriver()).getScreenshotAs(OutputType.BYTES)));
+        Logging.logInfo("Test " + getTestName(result) + " finished successfully");
     }
 
     @Override
     public void onTestFailure(ITestResult result){
         Allure.addAttachment("Screenshot", new ByteArrayInputStream(((TakesScreenshot)Browser.getDriver()).getScreenshotAs(OutputType.BYTES)));
+        Logging.logInfo("Test " + getTestName(result) + " finished unsuccessfully");
     }
 
     @Override
     public void onTestSkipped(ITestResult result) {
-        ITestListener.super.onTestSkipped(result);
+        Logging.logInfo("Test " + getTestName(result) + " skipped");
     }
 
     @Override
@@ -48,17 +48,16 @@ public class AllureReportListener implements ITestListener {
 
     @Override
     public void onStart(ITestContext context) {
-        ITestListener.super.onStart(context);
+        Logging.logInfo("Tests started");
     }
 
     @Override
     public void onFinish(ITestContext context) {
-        ITestListener.super.onFinish(context);
+        Logging.logInfo("Tests finished");
     }
 
-    @Attachment()
-    public static byte[] screenshot(WebDriver driver) {
-        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+    private static String getTestName(ITestResult iTestResult){
+        return iTestResult.getMethod().getConstructorOrMethod().getName();
     }
 
 }

@@ -11,6 +11,7 @@ public abstract class BasePage {
 
     WebDriver driver;
     public By pageNameLocator = By.xpath("//div[@class='wrap']//h1");
+    public By noEntityFoundLocator = By.className("colspanchange");
     private String pageName;
 
     MainMenuBar mainMenuBar;

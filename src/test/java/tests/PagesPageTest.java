@@ -15,8 +15,6 @@ import pages.PagesOrdinaryPage;
 import utils.Configuration;
 import utils.Logging;
 
-import java.lang.reflect.Method;
-
 @Listeners({AllureReportListener.class})
 public class PagesPageTest extends BaseTest{
 
@@ -37,12 +35,8 @@ public class PagesPageTest extends BaseTest{
 
     @AfterClass(alwaysRun = true)
     public void afterClass(){
+        pagesPage.deleteEntity("Test as draft");
         pagesPage.ClickOnBarSection(MainMenuBarSectionEnum.PAGES);
-    }
-
-    @BeforeMethod(alwaysRun = true)
-    public void handleTestMethodeName(Method method){
-        testName = method.getName();
     }
 
     @AfterMethod(alwaysRun = true)
@@ -53,36 +47,29 @@ public class PagesPageTest extends BaseTest{
     @Test(priority = 1, groups = {"smoke", "regression"})
     @Severity(SeverityLevel.CRITICAL) @Description("Adding one single page test")
     public void addOnePageTest(){
-        Logging.logInfo("Test " + testName + " starts");
         pagesPage.openAddingEntityPage();
         createPage.addNewEntity(Page.getPostTitle(), Page.getPostBody());
         pagesPage.searchEntity(Page.getPostTitle());
         Assert.assertTrue(pagesPage.isEntityAvailable(Page.getPostTitle()), "Page was not added");
-        Logging.logInfo("Test " + testName + " finished");
     }
 
     @Test (priority = 2, groups = "regression")
     @Severity(SeverityLevel.NORMAL) @Description("Find specific page")
     public void findPageTest(){
-        Logging.logInfo("Test " + testName + " started");
-        pagesPage.searchEntity(Page.getPostTitle());
+        pagesPage.searchEntity("Page.getPostTitle()");
         Assert.assertTrue(pagesPage.isEntityAvailable(Page.getPostTitle()), "Page does not found");
-        Logging.logInfo("Test " + testName + " finished");
     }
 
     @Test (priority = 5, groups = {"smoke", "regression"})
     @Severity(SeverityLevel.CRITICAL) @Description("Delete page test")
     public void deletePageTest(){
-        Logging.logInfo("Test " + testName + " started");
         pagesPage.deleteEntity(Page.getNewPageTitle());
         Assert.assertFalse(pagesPage.isEntityAvailable(Page.getNewPageTitle()), "Page still available");
-        Logging.logInfo("Test " + testName + " finished");
     }
 
     @Test (priority = 3, groups = "regression")
     @Severity(SeverityLevel.NORMAL) @Description("Save page as draft")
     public void addPageDraftTest(){
-        Logging.logInfo("Test " + testName + " started");
         pagesPage.openAddingEntityPage();
         createPage.saveEntityAsDraft("Test as draft", "Test as draft");
         pagesPage.searchEntity("Test as draft");
@@ -92,7 +79,6 @@ public class PagesPageTest extends BaseTest{
     @Test(priority = 4, groups = {"smoke", "regression"})
     @Severity(SeverityLevel.CRITICAL) @Description("Edit existing page")
     public void editPageTest(){
-        Logging.logInfo("Test " + testName + " started");
         pagesPage.clickOnEntity(Page.getPostTitle());
         createPage.updateEntity(Page.getNewPageTitle(), Page.getNewPageBody());
         pagesPage.searchEntity(Page.getNewPageTitle());

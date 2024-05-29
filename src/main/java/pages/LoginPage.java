@@ -15,6 +15,7 @@ public class LoginPage {
     private By submitButton = By.id("wp-submit");
     private By rememberMeCheckbox = By.id("rememberme");
     private By invalidLoginLabel = By.id("login_error");
+    private By visiblePassword = By.xpath("//*[@class='button button-secondary wp-hide-pw hide-if-no-js']");
 
     public LoginPage(WebDriver driver){
         this.driver = driver;
@@ -42,5 +43,16 @@ public class LoginPage {
     public boolean isOpened() {
         Wait.isElementPresented(driver.findElement(invalidLoginLabel));
         return true;
+    }
+
+    public boolean isPasswordMasked(String password){
+        driver.findElement(loginInput).clear();
+        driver.findElement(passwordInput).sendKeys(password);
+        driver.findElement(visiblePassword).click();
+        if(driver.findElement(passwordInput).getAttribute("type").equals("text")){
+            return true;
+        }else{
+            return false;
+        }
     }
 }

@@ -15,8 +15,6 @@ import pages.PostsOrdinaryPage;
 import utils.Configuration;
 import utils.Logging;
 
-import java.lang.reflect.Method;
-
 @Listeners({AllureReportListener.class})
 public class PostsPageTest extends BaseTest {
 
@@ -35,11 +33,6 @@ public class PostsPageTest extends BaseTest {
         Logging.logInfo("Posts page opened successfully");
     }
 
-    @BeforeMethod(alwaysRun = true)
-    public void handleTestMethodeName(Method method){
-        testName = method.getName();
-    }
-
     @AfterMethod(alwaysRun = true)
     public void returnToMainPage(){
         postsPage.ClickOnBarSection(MainMenuBarSectionEnum.POSTS);
@@ -47,42 +40,36 @@ public class PostsPageTest extends BaseTest {
 
     @AfterClass(alwaysRun = true)
     public void afterClass(){
+        postsPage.deleteEntity("Test as draft");
         postsPage.ClickOnBarSection(MainMenuBarSectionEnum.POSTS);
     }
 
     @Test (priority = 1, groups = {"smoke", "regression"})
     @Severity(SeverityLevel.CRITICAL) @Description("Adding one single post test")
     public void addOnePostTest(){
-        Logging.logInfo("Test " + testName + " starts");
         postsPage.openAddingEntityPage();
         createPage.addNewEntity(Post.getPostTitle(), Post.getPostBody());
         postsPage.searchEntity(Post.getPostTitle());
         Assert.assertTrue(postsPage.isEntityAvailable(Post.getPostTitle()), "Post was not added");
-        Logging.logInfo("Test " + testName + " finished");
     }
 
     @Test (priority = 2, groups = "regression")
     @Severity(SeverityLevel.NORMAL) @Description("Find specific post")
     public void findPostTest(){
-        Logging.logInfo("Test " + testName + " started");
         postsPage.searchEntity(Post.getPostTitle());
         Assert.assertTrue(postsPage.isEntityAvailable(Post.getPostTitle()), "Post does not found");
-        Logging.logInfo("Test " + testName + " finished");
     }
 
     @Test (priority = 5, groups = {"smoke", "regression"})
     @Severity(SeverityLevel.CRITICAL) @Description("Delete post test")
     public void deletePostTest(){
-        Logging.logInfo("Test " + testName + " started");
         postsPage.deleteEntity(Post.getNewPostTitle());
         Assert.assertFalse(postsPage.isEntityAvailable(Post.getNewPostTitle()), "Post still available and was not delete");
-        Logging.logInfo("Test " + testName + " finished");
     }
 
     @Test (priority = 3, groups = "regression")
     @Severity(SeverityLevel.NORMAL) @Description("Save post as draft")
     public void addPostDraftTest(){
-        Logging.logInfo("Test " + testName + " started");
         postsPage.openAddingEntityPage();
         createPage.saveEntityAsDraft("Test as draft", "Test as draft");
         postsPage.searchEntity("Test as draft");
@@ -92,7 +79,6 @@ public class PostsPageTest extends BaseTest {
     @Test(priority = 4, groups = {"smoke", "regression"})
     @Severity(SeverityLevel.CRITICAL) @Description("Edit existing post")
     public void editPostTest(){
-        Logging.logInfo("Test " + testName + " started");
         postsPage.clickOnEntity(Post.getPostTitle());
         createPage.updateEntity(Post.getNewPostTitle(), Post.getNewPostBody());
         postsPage.searchEntity(Post.getNewPostTitle());

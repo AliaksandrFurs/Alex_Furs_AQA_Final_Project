@@ -15,8 +15,6 @@ import pages.UploadNewMediaPage;
 import utils.Configuration;
 import utils.Logging;
 
-import java.lang.reflect.Method;
-
 @Listeners({AllureReportListener.class})
 public class MediaLibraryPageTest extends BaseTest{
 
@@ -40,11 +38,6 @@ public class MediaLibraryPageTest extends BaseTest{
         mediaLibraryPage.ClickOnBarSection(MainMenuBarSectionEnum.MEDIA);
     }
 
-    @BeforeMethod(alwaysRun = true)
-    public void handleTestMethodeName(Method method){
-        testName = method.getName();
-    }
-
     @AfterMethod(alwaysRun = true)
     public void returnToMainPage(){
         mediaLibraryPage.openPage();
@@ -53,7 +46,6 @@ public class MediaLibraryPageTest extends BaseTest{
     @Test(priority = 2, groups = "regression")
     @Severity(SeverityLevel.NORMAL) @Description("Delete media test")
     public void deleteMediaTest(){
-        Logging.logInfo("Test " + testName + " started");
         mediaLibraryPage.deleteEntity(Media.getMediaNameTitle());
         Assert.assertFalse(mediaLibraryPage.isEntityAvailable(Media.getMediaNameTitle()), "Media still available and was not delete");
     }
@@ -65,13 +57,11 @@ public class MediaLibraryPageTest extends BaseTest{
         uploadMediaPage.uploadNewImage(Media.getMediaNameTitle());
         mediaLibraryPage.searchEntity(Media.getMediaNameTitle());
         Assert.assertTrue(mediaLibraryPage.isEntityAvailable(Media.getMediaNameTitle()));
-        Logging.logInfo("Test " + testName + " finished");
     }
 
     @Test(priority = 3, groups = "regression")
     @Severity(SeverityLevel.NORMAL) @Description("Adding non existing media")
     public void addEmptyMediaTest(){
-        Logging.logInfo("Test " + testName + " started");
         mediaLibraryPage.openAddingEntityPage();
         uploadMediaPage.uploadNewImage("");
         Assert.assertTrue(uploadMediaPage.isOpened(), "No error occured during adding empty media");

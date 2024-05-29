@@ -63,6 +63,9 @@ public class PostsOrdinaryPage extends BasePage implements Page, BasicOrdinaryPa
         if(postsPageTable.getAllRowsTitle().size() > 0){
             if(postsPageTable.getRowByTitle(entityName).getName().equals(entityName))
                 return true;
+        }else if(postsPageTable.getAllRowsTitle().size() == 0 || postsPageTable.getAllRowsTitle() == null){
+            Wait.isElementPresented(driver.findElement(noEntityFoundLocator));
+            return false;
         }
         return false;
     }
