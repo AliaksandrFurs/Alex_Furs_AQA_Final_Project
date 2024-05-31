@@ -6,7 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class TopPageBar implements elements.interfaces.TopPageBar {
+public class TopPageBar implements interfaces.TopPageBar {
 
     WebDriver driver;
 

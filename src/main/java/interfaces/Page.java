@@ -1,4 +1,4 @@
-package elements.interfaces;
+package interfaces;
 
 public interface Page {
 

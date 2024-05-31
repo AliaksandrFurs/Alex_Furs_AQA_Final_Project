@@ -1,9 +1,7 @@
 package pages;
 
 import elements.bars.MainMenuBar;
-import elements.interfaces.TopPageBar;
-import enums.MainMenuBarSectionEnum;
-import enums.TopPageBarEnum;
+import interfaces.TopPageBar;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 

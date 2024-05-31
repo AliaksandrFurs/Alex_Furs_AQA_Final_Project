@@ -11,7 +11,7 @@ import utils.Logging;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PostsPageTable extends Table implements elements.interfaces.Table {
+public class PostsPageTable extends Table implements interfaces.Table {
 
     WebDriver driver;
     private static final String PATTERN = "//tr[@id='%s']//strong/span[contains(text(), 'Draft')]";

@@ -1,8 +1,8 @@
 package pages;
 
-import elements.interfaces.BasicOrdinaryPageActions;
-import elements.interfaces.MainMenuBarActions;
-import elements.interfaces.Page;
+import interfaces.BasicOrdinaryPageActions;
+import interfaces.MainMenuBarActions;
+import interfaces.Page;
 import elements.rows.PostPageTableRow;
 import elements.tables.PostsPageTable;
 import enums.MainMenuBarSectionEnum;

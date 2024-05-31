@@ -9,7 +9,7 @@ import org.openqa.selenium.WebElement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MediaPageTable extends Table implements elements.interfaces.Table {
+public class MediaPageTable extends Table implements interfaces.Table {
 
 
 

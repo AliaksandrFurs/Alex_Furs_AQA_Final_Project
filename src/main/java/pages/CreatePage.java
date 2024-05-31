@@ -1,6 +1,6 @@
 package pages;
 
-import elements.interfaces.BasicCreatePageActions;
+import interfaces.BasicCreatePageActions;
 import enums.AddingEntityTypeEnum;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

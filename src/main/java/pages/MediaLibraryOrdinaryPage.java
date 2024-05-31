@@ -1,8 +1,8 @@
 package pages;
 
-import elements.interfaces.BasicOrdinaryPageActions;
-import elements.interfaces.MainMenuBarActions;
-import elements.interfaces.Page;
+import interfaces.BasicOrdinaryPageActions;
+import interfaces.MainMenuBarActions;
+import interfaces.Page;
 import elements.tables.MediaPageTable;
 import enums.MainMenuBarSectionEnum;
 import io.qameta.allure.Step;

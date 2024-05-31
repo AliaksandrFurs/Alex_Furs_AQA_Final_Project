@@ -1,13 +1,12 @@
 package elements.bars;
 
-import elements.interfaces.MainMenuBarActions;
+import interfaces.MainMenuBarActions;
 import enums.MainMenuBarSectionEnum;
 import factories.PageFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import pages.BasePage;
-import utils.Browser;
 import utils.Logging;
 
 public class MainMenuBar implements MainMenuBarActions {

@@ -1,7 +1,7 @@
 package pages;
 
-import elements.interfaces.MainMenuBarActions;
-import elements.interfaces.Page;
+import interfaces.MainMenuBarActions;
+import interfaces.Page;
 import enums.MainMenuBarSectionEnum;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;

@@ -1,4 +1,4 @@
-package elements.interfaces;
+package interfaces;
 
 import enums.MainMenuBarSectionEnum;
 import pages.BasePage;

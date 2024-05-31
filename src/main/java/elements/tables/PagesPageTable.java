@@ -1,6 +1,6 @@
 package elements.tables;
 
-import elements.interfaces.Table;
+import interfaces.Table;
 import elements.rows.PagesPageTableRow;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;

@@ -1,4 +1,4 @@
-package elements.interfaces;
+package interfaces;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
