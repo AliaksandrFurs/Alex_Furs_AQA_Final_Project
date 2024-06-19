@@ -1,25 +1,21 @@
 package pages;
 
-import interfaces.MainMenuBarActions;
-import interfaces.Page;
+import interfaces.pages.IMainPageInterface;
 import enums.MainMenuBarSectionEnum;
 import io.qameta.allure.Step;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
+import utils.PageActions;
 import utils.Wait;
 
-public class MainPage extends BasePage implements Page, MainMenuBarActions {
+public class MainPage extends BasePage implements IMainPageInterface {
 
     private final static String DASHBOARD_URL = "https://wordpress-test-app-for-selenium.azurewebsites.net/wp-admin/index.php";
 
-    @FindBy(id = "dashboard_site_health")
-    private WebElement siteHealthStatus;
 
     public MainPage(WebDriver driver){
         super(driver);
-        PageFactory.initElements(driver, this);
+        pageLocatorsMap.put("siteHealthStatus", By.id("dashboard_site_health"));
         setPageName("Dashboard");
     }
 
@@ -28,20 +24,21 @@ public class MainPage extends BasePage implements Page, MainMenuBarActions {
     @Step("Open dashboard page")
     public void openPage() {
         driver.get(DASHBOARD_URL);
-        Wait.isElementPresented(driver.findElement(pageNameLocator));
+        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("pageNameLocator")));
     }
 
     @Override
     @Step("Verify is dashboard page opened successfully")
     public boolean isOpened() {
-        Wait.isElementPresented(siteHealthStatus);
+        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("siteHealthStatus")));
         return true;
     }
 
     @Override
     @Step("Click on main menu bar section")
-    public BasePage ClickOnBarSection(MainMenuBarSectionEnum sectionName) {
-        return mainMenuBar.ClickOnBarSection(sectionName);
+    public void ClickOnBarSection(MainMenuBarSectionEnum sectionName) {
+        //return mainMenuBar.ClickOnBarSection(sectionName);
+        PageActions.ClickOnBarSection(sectionName, mainMenuBar);
     }
 
     @Override
@@ -49,4 +46,5 @@ public class MainPage extends BasePage implements Page, MainMenuBarActions {
     public boolean isSectionPresented(MainMenuBarSectionEnum sectionName) {
         return false;
     }
+
 }

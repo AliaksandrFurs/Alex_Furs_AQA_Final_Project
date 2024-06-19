@@ -1,6 +1,8 @@
 package tests;
 
 import factories.PageFactory;
+import interfaces.pages.ILoginPageInterface;
+import interfaces.pages.IMainPageInterface;
 import io.qameta.allure.Description;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
@@ -9,8 +11,6 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-import pages.LoginPage;
-import pages.MainPage;
 import utils.Configuration;
 import utils.Logging;
 
@@ -18,8 +18,8 @@ import utils.Logging;
 @Listeners({AllureReportListener.class})
 public class LoginTest extends BaseTest {
 
-    LoginPage loginPage = PageFactory.getLoginPage(driver);
-    MainPage mainPage = PageFactory.getMainPage(driver);
+    ILoginPageInterface loginPage = PageFactory.getLoginPage(driver);
+    IMainPageInterface mainPage = PageFactory.getMainPage(driver);
 
     @BeforeClass(alwaysRun = true)
     public void navigateTo(){

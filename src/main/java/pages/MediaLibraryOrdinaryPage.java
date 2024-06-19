@@ -1,42 +1,40 @@
 package pages;
 
-import interfaces.BasicOrdinaryPageActions;
-import interfaces.MainMenuBarActions;
-import interfaces.Page;
 import elements.tables.MediaPageTable;
 import enums.MainMenuBarSectionEnum;
+import interfaces.pages.IMediaLibraryPageInterface;
+import interfaces.tables.IMediaPageTableInterface;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
+import utils.PageActions;
 import utils.Wait;
 
-public class MediaLibraryOrdinaryPage extends BasePage implements Page, BasicOrdinaryPageActions, MainMenuBarActions {
+public class MediaLibraryOrdinaryPage extends BasePage implements IMediaLibraryPageInterface {
 
     private final static String MEDIA_URL = "https://wordpress-test-app-for-selenium.azurewebsites.net/wp-admin/upload.php";
 
     private By mediaLocator = By.className("has-media-icon");
-    private MediaPageTable mediaPageTable= new MediaPageTable(driver);
+    private IMediaPageTableInterface mediaPageTable= new MediaPageTable(driver);
     private Select actionDropdownSelect;
 
     public MediaLibraryOrdinaryPage(WebDriver driver){
-
         super(driver);
         setPageName("Media");
-        PageFactory.initElements(driver,this);
+        pageLocatorsMap.put("mediaSearchInput", By.id("media-search-input"));
+        pageLocatorsMap.put("addNewEntityButton",By.xpath("//a[contains(@class, 'page-title-action')]"));
+        pageLocatorsMap.put("applyActionButton",By.id("doaction"));
+        pageLocatorsMap.put("searchButton",By.id("search-submit"));
+        pageLocatorsMap.put("dropdown", By.id("bulk-action-selector-top"));
+        pageLocatorsMap.put("table", By.className("wp-list-table widefat fixed striped table-view-list media"));
     }
-
-    @FindBy(id = "bulk-action-selector-top")
-    WebElement dropdown;
 
     @Override
     @Step("Open media page")
     public void openPage() {
         driver.get(MEDIA_URL);
-        Wait.isElementPresented(driver.findElement(pageNameLocator));
+        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("pageNameLocator")));
         mediaPageTable.updateRowsNumber();
         mediaPageTable.createTableRows();
     }
@@ -44,31 +42,34 @@ public class MediaLibraryOrdinaryPage extends BasePage implements Page, BasicOrd
     @Override
     @Step("Verify is media page opened successfully")
     public boolean isOpened() {
-        Wait.isElementPresented(driver.findElement(pageNameLocator));
+        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("pageNameLocator")));
         return true;
     }
 
     @Override
     @Step("Search media entity")
     public void searchEntity(String entityName) {
-        Wait.isElementPresented(driver.findElement(pageNameLocator));
-        mediaPageTable.deleteTableRows();
-        driver.switchTo().defaultContent();
-        Wait.isElementPresented(driver.findElement(mediaSearchInput));
-        Wait.isElementPresented(driver.findElement(mediaSearchInput));
-        driver.findElement(mediaSearchInput).sendKeys(entityName);
-        driver.findElement(searchButton).click();
-        driver.switchTo().defaultContent();
-        mediaPageTable.createTableRows();
+        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("mediaSearchInput")));
+        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("searchButton")));
+        PageActions.searchEntity(entityName, mediaPageTable, pageLocatorsMap, driver);
+        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
+        if(isEntityAvailable(entityName)){
+            mediaPageTable.createTableRows();
+        }
     }
 
     @Override
     @Step("Verify is media entity presented on page")
     public boolean isEntityAvailable(String entityName) {
-        Wait.isElementPresented(driver.findElement(pageNameLocator));
+        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("pageNameLocator")));
+        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
         if(mediaPageTable.getAllRowsTitle().size() > 0){
             if(mediaPageTable.getRowByTitle(entityName).getName().equals(entityName))
                 return true;
+        }else if(mediaPageTable.getAllRowsTitle().size() == 0 || mediaPageTable.getAllRowsTitle() == null ||
+                driver.findElement(pageLocatorsMap.get("noEntityFoundLocator")).getText().equals("No media files found.")){
+            Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("noEntityFoundLocator")));
+            return false;
         }
         return false;
     }
@@ -76,15 +77,17 @@ public class MediaLibraryOrdinaryPage extends BasePage implements Page, BasicOrd
     @Override
     @Step("Delete media entity")
     public void deleteEntity(String enityName) {
-        Wait.isElementPresented(driver.findElement(pageNameLocator));
+        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("pageNameLocator")));
+        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
         if(actionDropdownSelect == null){
-            actionDropdownSelect = new Select(dropdown);
+            actionDropdownSelect = new Select(driver.findElement(pageLocatorsMap.get("dropdown")));
         }
-        searchEntity(enityName);
-        mediaPageTable.selectRows();
-        actionDropdownSelect.selectByValue("delete");
-        driver.findElement(applyActionButton).click();
-        driver.switchTo().alert().accept();
+        PageActions.searchEntity(enityName, mediaPageTable, pageLocatorsMap, driver);
+        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
+        if(isEntityAvailable(enityName)){
+            PageActions.deleteEntity(actionDropdownSelect, "delete", mediaPageTable, pageLocatorsMap, driver);
+        }
+        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
         mediaPageTable.updateRowsNumber();
         mediaPageTable.createTableRows();
     }
@@ -92,13 +95,15 @@ public class MediaLibraryOrdinaryPage extends BasePage implements Page, BasicOrd
     @Override
     @Step("Open adding media page by clicking on button")
     public void openAddingEntityPage() {
-        Wait.isElementPresented(driver.findElement(pageNameLocator));
-        driver.findElement(addNewEntityButton).click();
+        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("pageNameLocator")));
+        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("addNewEntityButton")));
+        driver.findElement(pageLocatorsMap.get("addNewEntityButton")).click();
     }
 
     @Override
     public void clickOnEntity(String entityName) {
-        Wait.isElementPresented(driver.findElement(pageNameLocator));
+        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("pageNameLocator")));
+        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
         searchEntity(entityName);
         if(isEntityAvailable(entityName)){
             mediaPageTable.clickOnRowTitle(entityName);
@@ -107,9 +112,9 @@ public class MediaLibraryOrdinaryPage extends BasePage implements Page, BasicOrd
 
     @Override
     @Step("Click on top bar section")
-    public BasePage ClickOnBarSection(MainMenuBarSectionEnum sectionName) {
-        Wait.isElementPresented(driver.findElement(pageNameLocator));
-        return mainMenuBar.ClickOnBarSection(sectionName);
+    public void ClickOnBarSection(MainMenuBarSectionEnum sectionName) {
+        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("pageNameLocator")));
+        PageActions.ClickOnBarSection(sectionName, mainMenuBar);
     }
 
     @Override

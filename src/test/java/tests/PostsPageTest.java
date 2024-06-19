@@ -3,24 +3,24 @@ package tests;
 import business.Post;
 import enums.MainMenuBarSectionEnum;
 import factories.PageFactory;
+import interfaces.pages.ICreatePageInterface;
+import interfaces.pages.ILoginPageInterface;
+import interfaces.pages.IPostsOrdinaryPageInterface;
 import io.qameta.allure.Description;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import listeners.AllureReportListener;
 import org.testng.Assert;
 import org.testng.annotations.*;
-import pages.CreatePage;
-import pages.LoginPage;
-import pages.PostsOrdinaryPage;
 import utils.Configuration;
 import utils.Logging;
 
 @Listeners({AllureReportListener.class})
 public class PostsPageTest extends BaseTest {
 
-    PostsOrdinaryPage postsPage = PageFactory.getPostsPage(driver);
-    LoginPage loginPage = PageFactory.getLoginPage(driver);
-    CreatePage createPage = PageFactory.getCreatePage(driver);
+    IPostsOrdinaryPageInterface postsPage = PageFactory.getPostsPage(driver);
+    ILoginPageInterface loginPage = PageFactory.getLoginPage(driver);
+    ICreatePageInterface createPage = PageFactory.getCreatePage(driver);
 
     @BeforeClass(alwaysRun = true)
     public void navigateToAndPrepareData(){

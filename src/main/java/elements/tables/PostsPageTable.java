@@ -2,6 +2,7 @@ package elements.tables;
 
 import elements.Table;
 import elements.rows.PostPageTableRow;
+import interfaces.tables.IPostsPageTableInterface;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -11,7 +12,7 @@ import utils.Logging;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PostsPageTable extends Table implements interfaces.Table {
+public class PostsPageTable extends Table implements IPostsPageTableInterface {
 
     WebDriver driver;
     private static final String PATTERN = "//tr[@id='%s']//strong/span[contains(text(), 'Draft')]";
@@ -21,8 +22,10 @@ public class PostsPageTable extends Table implements interfaces.Table {
 
 
     public PostsPageTable(WebDriver driver) {
+        super();
         this.driver = driver;
-        rowTitle = By.xpath("//a[contains(@class, 'row-title')]");
+        tableLocatorsMap.put("rowTitle", By.xpath("//a[contains(@class, 'row-title')]"));
+        //rowTitle = By.xpath("//a[contains(@class, 'row-title')]");
     }
 
     @Override
@@ -36,8 +39,8 @@ public class PostsPageTable extends Table implements interfaces.Table {
         tableRows.clear();
 
         setAllRowsTitle(driver.findElements(rowTitle));
-        allAuthorTitle = driver.findElements(authorTitle);
-        setAllId(driver.findElements(rowId));
+        allAuthorTitle = driver.findElements(tableLocatorsMap.get("authorTitle"));
+        setAllId(driver.findElements(tableLocatorsMap.get("rowId")));
 
         for(int i=0; i<rowsNumber; i++){
             tableRows.add(new PostPageTableRow(getAllRowsTitle().get(i).getText(), allAuthorTitle.get(i).getText(), getAllId().get(i).getAttribute("id")));
@@ -61,7 +64,7 @@ public class PostsPageTable extends Table implements interfaces.Table {
 
     @Override
     public void selectRows() {
-        driver.findElement(rowCheckbox).click();
+        driver.findElement(tableLocatorsMap.get("rowCheckbox")).click();
     }
 
     @Override
@@ -79,6 +82,12 @@ public class PostsPageTable extends Table implements interfaces.Table {
         }
     }
 
+    @Override
+    public List<WebElement> getAllRowsTitle() {
+        return allRowsTitle;
+    }
+
+    @Override
     public boolean isTitleDraft(String title){
         for(PostPageTableRow row: tableRows){
             if(row.getName().equals(title)){
@@ -88,12 +97,13 @@ public class PostsPageTable extends Table implements interfaces.Table {
         return false;
     }
 
-    public PostPageTableRow getRowByTitle(String rowTitle){
-        for(PostPageTableRow row : tableRows){
-            if(row.getName().equals(rowTitle)){
-                return row;
+    @Override
+    public PostPageTableRow getRowByTitle(String rowTitle) {
+            for(PostPageTableRow row : tableRows){
+                if(row.getName().equals(rowTitle)){
+                    return row;
+                }
             }
-        }
-        return null;
+            return null;
     }
 }

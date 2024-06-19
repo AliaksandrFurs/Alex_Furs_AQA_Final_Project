@@ -1,6 +1,6 @@
 package elements.tables;
 
-import interfaces.Table;
+import interfaces.tables.IPagesPageTableInterface;
 import elements.rows.PagesPageTableRow;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -11,7 +11,7 @@ import utils.Logging;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PagesPageTable extends elements.Table implements Table {
+public class PagesPageTable extends elements.Table implements IPagesPageTableInterface {
 
     WebDriver driver;
     private static final String DRAFT_PATTERN = "//tr[@id='%s']//strong/span[contains(text(), 'Draft')]";
@@ -20,8 +20,10 @@ public class PagesPageTable extends elements.Table implements Table {
     private List<WebElement> allAuthorTitle = new ArrayList<>();
 
     public PagesPageTable(WebDriver driver) {
+        super();
         this.driver = driver;
-        rowTitle = By.xpath("//a[contains(@class, 'row-title')]");
+        tableLocatorsMap.put("rowTitle", By.xpath("//a[contains(@class, 'row-title')]"));
+        //rowTitle = By.xpath("//a[contains(@class, 'row-title')]");
     }
 
     @Override
@@ -34,8 +36,8 @@ public class PagesPageTable extends elements.Table implements Table {
         tableRows.clear();
 
         setAllRowsTitle(driver.findElements(rowTitle));
-        allAuthorTitle = driver.findElements(authorTitle);
-        setAllId(driver.findElements(rowId));
+        allAuthorTitle = driver.findElements(tableLocatorsMap.get("authorTitle"));
+        setAllId(driver.findElements(tableLocatorsMap.get("rowId")));
 
         for(int i=0; i<rowsNumber; i++){
             tableRows.add(new PagesPageTableRow(getAllRowsTitle().get(i).getText(), allAuthorTitle.get(i).getText(), getAllId().get(i).getAttribute("id")));
@@ -64,9 +66,10 @@ public class PagesPageTable extends elements.Table implements Table {
 
     @Override
     public void selectRows() {
-        driver.findElement(rowCheckbox).click();
+        driver.findElement(tableLocatorsMap.get("rowCheckbox")).click();
     }
 
+    @Override
     public boolean isTitleDraft(String title){
         for(PagesPageTableRow row: tableRows){
             if(row.getName().equals(title)){
@@ -86,12 +89,18 @@ public class PagesPageTable extends elements.Table implements Table {
         }
     }
 
-    public PagesPageTableRow getRowByTitle(String rowTitle){
-        for(PagesPageTableRow row : tableRows){
-            if(row.getName().equals(rowTitle)){
-                return row;
+    @Override
+    public List<WebElement> getAllRowsTitle() {
+        return allRowsTitle;
+    }
+
+    @Override
+    public PagesPageTableRow getRowByTitle(String rowTitle) {
+            for(PagesPageTableRow row : tableRows){
+                if(row.getName().equals(rowTitle)){
+                    return row;
+                }
             }
-        }
-        return null;
+            return null;
     }
 }

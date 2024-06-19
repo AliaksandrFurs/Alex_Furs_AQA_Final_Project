@@ -5,11 +5,12 @@ import interfaces.TopPageBar;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public abstract class BasePage {
+import java.util.HashMap;
+
+public abstract class BasePage  {
 
     WebDriver driver;
-    public By pageNameLocator = By.xpath("//div[@class='wrap']//h1");
-    public By noEntityFoundLocator = By.className("colspanchange");
+    public HashMap <String, By> pageLocatorsMap;
     private String pageName;
 
     MainMenuBar mainMenuBar;
@@ -18,15 +19,15 @@ public abstract class BasePage {
     public BasePage(WebDriver driver){
 
         this.driver = driver;
+        pageLocatorsMap = new HashMap<>();
+        pageLocatorsMap.put("pageNameLocator", By.xpath("//div[@class='wrap']//h1"));
+        pageLocatorsMap.put("noEntityFoundLocator", By.className("colspanchange"));
         mainMenuBar = new MainMenuBar(driver);
         topPageBar = new elements.bars.TopPageBar(driver);
-    }
-
-    public String getPageName() {
-        return pageName;
     }
 
     public void setPageName(String pageName) {
         this.pageName = pageName;
     }
+
 }

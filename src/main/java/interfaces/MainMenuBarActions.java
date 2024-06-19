@@ -5,7 +5,7 @@ import pages.BasePage;
 
 public interface MainMenuBarActions {
 
-    public BasePage ClickOnBarSection(MainMenuBarSectionEnum sectionName);
+    BasePage ClickOnBarSection(MainMenuBarSectionEnum sectionName);
 
-    public boolean isSectionPresented(MainMenuBarSectionEnum sectionName);
+    boolean isSectionPresented(MainMenuBarSectionEnum sectionName);
 }

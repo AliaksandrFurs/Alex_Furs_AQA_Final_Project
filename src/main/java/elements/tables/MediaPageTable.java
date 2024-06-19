@@ -2,6 +2,7 @@ package elements.tables;
 
 import elements.rows.MediaPageTableRow;
 import elements.Table;
+import interfaces.tables.IMediaPageTableInterface;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -9,7 +10,7 @@ import org.openqa.selenium.WebElement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MediaPageTable extends Table implements interfaces.Table {
+public class MediaPageTable extends Table implements IMediaPageTableInterface {
 
 
 
@@ -19,8 +20,10 @@ public class MediaPageTable extends Table implements interfaces.Table {
     private List<WebElement> allAuthorTitle = new ArrayList<>();
 
     public MediaPageTable(WebDriver driver) {
+        super();
         this.driver = driver;
-        rowTitle = By.xpath("//strong[@class='has-media-icon']/a");
+        tableLocatorsMap.put("rowTitle", By.xpath("//strong[@class='has-media-icon']/a"));
+        //rowTitle = By.xpath("//strong[@class='has-media-icon']/a");
     }
 
     @Override
@@ -33,8 +36,8 @@ public class MediaPageTable extends Table implements interfaces.Table {
         tableRows.clear();
 
         setAllRowsTitle(driver.findElements(rowTitle));
-        allAuthorTitle = driver.findElements(authorTitle);
-        setAllId(driver.findElements(rowId));
+        allAuthorTitle = driver.findElements(tableLocatorsMap.get("authorTitle"));
+        setAllId(driver.findElements(tableLocatorsMap.get("rowId")));
 
         for(int i=0; i<rowsNumber; i++){
             tableRows.add(new MediaPageTableRow(getAllRowsTitle().get(i).getText(), allAuthorTitle.get(i).getText(), getAllId().get(i).getAttribute("id")));
@@ -54,7 +57,7 @@ public class MediaPageTable extends Table implements interfaces.Table {
 
     @Override
     public void selectRows() {
-        driver.findElement(rowCheckbox).click();
+        driver.findElement(tableLocatorsMap.get("rowCheckbox")).click();
     }
 
     @Override
@@ -67,12 +70,19 @@ public class MediaPageTable extends Table implements interfaces.Table {
         }
     }
 
-    public MediaPageTableRow getRowByTitle(String rowTitle){
-        for(MediaPageTableRow row : tableRows){
-            if(row.getName().equals(rowTitle)){
-                return row;
+    @Override
+    public List<WebElement> getAllRowsTitle() {
+            return allRowsTitle;
+    }
+
+
+    @Override
+    public MediaPageTableRow getRowByTitle(String rowTitle) {
+            for(MediaPageTableRow row : tableRows){
+                if(row.getName().equals(rowTitle)){
+                    return row;
+                }
             }
-        }
-        return null;
+            return null;
     }
 }

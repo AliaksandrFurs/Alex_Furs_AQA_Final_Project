@@ -12,5 +12,6 @@ public class ChromeConfiguration {
 
         //chromeConfiguration.setExperimentalOption("excludeSwitches", "disable-popup-blocking");
         chromeConfiguration.setImplicitWaitTimeout(Duration.ofSeconds(30));
+
     }
 }

@@ -1,6 +1,10 @@
-package interfaces;
+package interfaces.tables;
 
-public interface Table {
+import org.openqa.selenium.WebElement;
+
+import java.util.List;
+
+public interface ITable {
 
     void createTableRows();
 
@@ -11,4 +15,6 @@ public interface Table {
     void selectRows();
 
     void clickOnRowTitle(String rowTitle);
+
+    List<WebElement> getAllRowsTitle();
 }
