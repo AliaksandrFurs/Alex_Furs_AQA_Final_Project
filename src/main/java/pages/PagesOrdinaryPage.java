@@ -9,6 +9,7 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.Select;
+import utils.Logging;
 import utils.PageActions;
 import utils.Wait;
 
@@ -54,9 +55,9 @@ public class PagesOrdinaryPage extends  BasePage implements IPagesOrdinaryPageIn
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("searchButton")));
         PageActions.searchEntity(entityName, pagesPageTable, pageLocatorsMap, driver);
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
-        if(isEntityAvailable(entityName)){
-            pagesPageTable.createTableRows();
-        }
+        pagesPageTable.deleteTableRows();
+        pagesPageTable.updateRowsNumber();
+        pagesPageTable.createTableRows();
     }
 
     @Override
@@ -64,13 +65,21 @@ public class PagesOrdinaryPage extends  BasePage implements IPagesOrdinaryPageIn
     public boolean isEntityAvailable(String entityName) {
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("pageNameLocator")));
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
-        if(pagesPageTable.getAllRowsTitle().size() > 0){
-            if(pagesPageTable.getRowByTitle(entityName).getName().equals(entityName));
-            return true;
-        }else if(pagesPageTable.getAllRowsTitle().size() == 0 || pagesPageTable.getAllRowsTitle() == null
-                || driver.findElement(pageLocatorsMap.get("noEntityFoundLocator")).getText().equals("No pages found.")){
+        if(pagesPageTable.getRowsNumber() == 0){
             Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("noEntityFoundLocator")));
-            return false;
+            if(driver.findElement(pageLocatorsMap.get("noEntityFoundLocator")).getText().equals("No media files found.")){
+                return false;
+            }
+        }else{
+            if(pagesPageTable.getAllRowsTitle().size() > 0){
+                if(pagesPageTable.getRowByTitle(entityName).getName().equals(entityName)){
+                    return true;
+                }else{
+                    return false;
+                }
+            }else{
+                return false;
+            }
         }
         return false;
     }
@@ -80,17 +89,19 @@ public class PagesOrdinaryPage extends  BasePage implements IPagesOrdinaryPageIn
     public void deleteEntity(String enityName) {
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("pageNameLocator")));
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
-        if(actionDropdownSelect == null){
-            actionDropdownSelect = new Select(driver.findElement(pageLocatorsMap.get("dropdown")));
-        }
         PageActions.searchEntity(enityName, pagesPageTable, pageLocatorsMap, driver);
-        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
-        if(isEntityAvailable(enityName)) {
-            PageActions.deleteEntity(actionDropdownSelect, "trash", pagesPageTable, pageLocatorsMap, driver);
-        }
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
         pagesPageTable.updateRowsNumber();
         pagesPageTable.createTableRows();
+        if(isEntityAvailable(enityName)) {
+            if (actionDropdownSelect == null) {
+                actionDropdownSelect = new Select(driver.findElement(pageLocatorsMap.get("dropdown")));
+            }
+            PageActions.deleteEntity(actionDropdownSelect, "trash", pagesPageTable, pageLocatorsMap, driver);
+        }else{
+            Logging.logWarn("Unable to delete entity");
+        }
+        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
     }
 
     @Override

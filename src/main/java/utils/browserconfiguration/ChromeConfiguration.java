@@ -6,11 +6,10 @@ import java.time.Duration;
 
 public class ChromeConfiguration {
 
-    private ChromeOptions chromeConfiguration = new ChromeOptions();
+    private final ChromeOptions chromeConfiguration = new ChromeOptions();
 
     public ChromeConfiguration(){
 
-        //chromeConfiguration.setExperimentalOption("excludeSwitches", "disable-popup-blocking");
         chromeConfiguration.setImplicitWaitTimeout(Duration.ofSeconds(30));
 
     }

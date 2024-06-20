@@ -17,4 +17,6 @@ public interface ITable {
     void clickOnRowTitle(String rowTitle);
 
     List<WebElement> getAllRowsTitle();
+
+    int getRowsNumber();
 }

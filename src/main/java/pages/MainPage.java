@@ -37,7 +37,6 @@ public class MainPage extends BasePage implements IMainPageInterface {
     @Override
     @Step("Click on main menu bar section")
     public void ClickOnBarSection(MainMenuBarSectionEnum sectionName) {
-        //return mainMenuBar.ClickOnBarSection(sectionName);
         PageActions.ClickOnBarSection(sectionName, mainMenuBar);
     }
 

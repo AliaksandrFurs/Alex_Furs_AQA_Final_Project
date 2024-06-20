@@ -8,6 +8,7 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.Select;
+import utils.Logging;
 import utils.PageActions;
 import utils.Wait;
 
@@ -22,12 +23,12 @@ public class MediaLibraryOrdinaryPage extends BasePage implements IMediaLibraryP
     public MediaLibraryOrdinaryPage(WebDriver driver){
         super(driver);
         setPageName("Media");
-        pageLocatorsMap.put("mediaSearchInput", By.id("media-search-input"));
+        pageLocatorsMap.put("searchInput", By.id("media-search-input"));
         pageLocatorsMap.put("addNewEntityButton",By.xpath("//a[contains(@class, 'page-title-action')]"));
         pageLocatorsMap.put("applyActionButton",By.id("doaction"));
         pageLocatorsMap.put("searchButton",By.id("search-submit"));
         pageLocatorsMap.put("dropdown", By.id("bulk-action-selector-top"));
-        pageLocatorsMap.put("table", By.className("wp-list-table widefat fixed striped table-view-list media"));
+        pageLocatorsMap.put("table", By.xpath("//table[@class='wp-list-table widefat fixed striped table-view-list media']"));
     }
 
     @Override
@@ -49,13 +50,13 @@ public class MediaLibraryOrdinaryPage extends BasePage implements IMediaLibraryP
     @Override
     @Step("Search media entity")
     public void searchEntity(String entityName) {
-        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("mediaSearchInput")));
+        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("searchInput")));
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("searchButton")));
         PageActions.searchEntity(entityName, mediaPageTable, pageLocatorsMap, driver);
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
-        if(isEntityAvailable(entityName)){
-            mediaPageTable.createTableRows();
-        }
+        mediaPageTable.deleteTableRows();
+        mediaPageTable.updateRowsNumber();
+        mediaPageTable.createTableRows();
     }
 
     @Override
@@ -63,13 +64,21 @@ public class MediaLibraryOrdinaryPage extends BasePage implements IMediaLibraryP
     public boolean isEntityAvailable(String entityName) {
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("pageNameLocator")));
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
-        if(mediaPageTable.getAllRowsTitle().size() > 0){
-            if(mediaPageTable.getRowByTitle(entityName).getName().equals(entityName))
-                return true;
-        }else if(mediaPageTable.getAllRowsTitle().size() == 0 || mediaPageTable.getAllRowsTitle() == null ||
-                driver.findElement(pageLocatorsMap.get("noEntityFoundLocator")).getText().equals("No media files found.")){
+        if(mediaPageTable.getRowsNumber() == 0){
             Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("noEntityFoundLocator")));
-            return false;
+            if(driver.findElement(pageLocatorsMap.get("noEntityFoundLocator")).getText().equals("No media files found.")){
+                return false;
+            }
+        }else{
+            if(mediaPageTable.getAllRowsTitle().size() > 0){
+                if(mediaPageTable.getRowByTitle(entityName).getName().equals(entityName)){
+                    return true;
+                }else{
+                    return false;
+                }
+            }else{
+                return false;
+            }
         }
         return false;
     }
@@ -79,17 +88,19 @@ public class MediaLibraryOrdinaryPage extends BasePage implements IMediaLibraryP
     public void deleteEntity(String enityName) {
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("pageNameLocator")));
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
-        if(actionDropdownSelect == null){
-            actionDropdownSelect = new Select(driver.findElement(pageLocatorsMap.get("dropdown")));
-        }
         PageActions.searchEntity(enityName, mediaPageTable, pageLocatorsMap, driver);
-        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
-        if(isEntityAvailable(enityName)){
-            PageActions.deleteEntity(actionDropdownSelect, "delete", mediaPageTable, pageLocatorsMap, driver);
-        }
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
         mediaPageTable.updateRowsNumber();
         mediaPageTable.createTableRows();
+        if(isEntityAvailable(enityName)) {
+            if (actionDropdownSelect == null) {
+                actionDropdownSelect = new Select(driver.findElement(pageLocatorsMap.get("dropdown")));
+            }
+                PageActions.deleteEntity(actionDropdownSelect, "delete", mediaPageTable, pageLocatorsMap, driver);
+        }else{
+            Logging.logWarn("Unable to delete entity");
+        }
+        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
     }
 
     @Override

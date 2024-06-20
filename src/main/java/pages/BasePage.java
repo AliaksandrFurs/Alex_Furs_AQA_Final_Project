@@ -1,6 +1,7 @@
 package pages;
 
 import elements.bars.MainMenuBar;
+import interfaces.IMainMenuBarActions;
 import interfaces.TopPageBar;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -11,9 +12,8 @@ public abstract class BasePage  {
 
     WebDriver driver;
     public HashMap <String, By> pageLocatorsMap;
-    private String pageName;
-
-    MainMenuBar mainMenuBar;
+    String pageName;
+    IMainMenuBarActions mainMenuBar;
     TopPageBar topPageBar;
 
     public BasePage(WebDriver driver){

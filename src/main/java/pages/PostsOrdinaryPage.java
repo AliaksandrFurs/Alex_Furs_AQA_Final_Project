@@ -9,6 +9,7 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.Select;
+import utils.Logging;
 import utils.PageActions;
 import utils.Wait;
 
@@ -55,9 +56,9 @@ public class PostsOrdinaryPage extends BasePage implements IPostsOrdinaryPageInt
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("searchButton")));
         PageActions.searchEntity(entityName, postsPageTable, pageLocatorsMap, driver);
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
-        if(isEntityAvailable(entityName)){
-            postsPageTable.createTableRows();
-        }
+        postsPageTable.deleteTableRows();
+        postsPageTable.updateRowsNumber();
+        postsPageTable.createTableRows();
     }
 
     @Override
@@ -65,33 +66,43 @@ public class PostsOrdinaryPage extends BasePage implements IPostsOrdinaryPageInt
     public boolean isEntityAvailable(String entityName) {
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("pageNameLocator")));
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
-        if(postsPageTable.getAllRowsTitle().size() > 0){
-            if(postsPageTable.getRowByTitle(entityName).getName().equals(entityName))
-                return true;
-        }else if(postsPageTable.getAllRowsTitle().size() == 0 || postsPageTable.getAllRowsTitle() == null ||
-                driver.findElement(pageLocatorsMap.get("noEntityFoundLocator")).getText().equals("No posts found.")){
+        if(postsPageTable.getRowsNumber() == 0){
             Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("noEntityFoundLocator")));
-            return false;
+            if(driver.findElement(pageLocatorsMap.get("noEntityFoundLocator")).getText().equals("No media files found.")){
+                return false;
+            }
+        }else{
+            if(postsPageTable.getAllRowsTitle().size() > 0){
+                if(postsPageTable.getRowByTitle(entityName).getName().equals(entityName)){
+                    return true;
+                }else{
+                    return false;
+                }
+            }else{
+                return false;
+            }
         }
         return false;
     }
 
     @Override
     @Step("Delete post entity")
-    public void deleteEntity(String postName) {
+    public void deleteEntity(String entityName) {
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("pageNameLocator")));
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
-        if(actionDropdownSelect == null){
-            actionDropdownSelect = new Select(driver.findElement(pageLocatorsMap.get("dropdown")));
-        }
-        PageActions.searchEntity(postName, postsPageTable, pageLocatorsMap, driver);
-        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
-        if(isEntityAvailable(postName)){
-            PageActions.deleteEntity(actionDropdownSelect, "trash", postsPageTable, pageLocatorsMap, driver);
-        }
+        PageActions.searchEntity(entityName, postsPageTable, pageLocatorsMap, driver);
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
         postsPageTable.updateRowsNumber();
         postsPageTable.createTableRows();
+        if(isEntityAvailable(entityName)) {
+            if (actionDropdownSelect == null) {
+                actionDropdownSelect = new Select(driver.findElement(pageLocatorsMap.get("dropdown")));
+            }
+            PageActions.deleteEntity(actionDropdownSelect, "trash", postsPageTable, pageLocatorsMap, driver);
+        }else{
+            Logging.logWarn("Unable to delete entity");
+        }
+        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
     }
 
     @Override

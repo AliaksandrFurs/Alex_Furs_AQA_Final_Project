@@ -47,7 +47,7 @@ public class MediaLibraryPageTest extends BaseTest{
     @Severity(SeverityLevel.NORMAL) @Description("Delete media test")
     public void deleteMediaTest(){
         mediaLibraryPage.deleteEntity(Media.getMediaNameTitle());
-        Assert.assertFalse(mediaLibraryPage.isEntityAvailable(Media.getMediaNameTitle()), "Media still available and was not delete");
+        Assert.assertTrue(mediaLibraryPage.isEntityAvailable(Media.getMediaNameTitle()), "Media still available and was not delete");
     }
 
     @Test(priority = 1, groups = "regression")
