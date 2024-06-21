@@ -1,7 +1,7 @@
 package elements.tables;
 
-import interfaces.tables.IPagesPageTableInterface;
 import elements.rows.PagesPageTableRow;
+import interfaces.tables.ITableWithDraft;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -11,7 +11,7 @@ import utils.Logging;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PagesPageTable extends elements.Table implements IPagesPageTableInterface {
+public class PagesPageTable extends elements.Table implements ITableWithDraft {
 
     WebDriver driver;
     private static final String DRAFT_PATTERN = "//tr[@id='%s']//strong/span[contains(text(), 'Draft')]";
@@ -102,13 +102,4 @@ public class PagesPageTable extends elements.Table implements IPagesPageTableInt
         return rowsNumber;
     }
 
-    @Override
-    public PagesPageTableRow getRowByTitle(String rowTitle) {
-            for(PagesPageTableRow row : tableRows){
-                if(row.getName().equals(rowTitle)){
-                    return row;
-                }
-            }
-            return null;
-    }
 }

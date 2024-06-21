@@ -2,7 +2,7 @@ package elements.tables;
 
 import elements.Table;
 import elements.rows.PostPageTableRow;
-import interfaces.tables.IPostsPageTableInterface;
+import interfaces.tables.ITableWithDraft;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -12,7 +12,7 @@ import utils.Logging;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PostsPageTable extends Table implements IPostsPageTableInterface {
+public class PostsPageTable extends Table implements ITableWithDraft {
 
     WebDriver driver;
     private static final String PATTERN = "//tr[@id='%s']//strong/span[contains(text(), 'Draft')]";
@@ -104,13 +104,4 @@ public class PostsPageTable extends Table implements IPostsPageTableInterface {
         return false;
     }
 
-    @Override
-    public PostPageTableRow getRowByTitle(String rowTitle) {
-            for(PostPageTableRow row : tableRows){
-                if(row.getName().equals(rowTitle)){
-                    return row;
-                }
-            }
-            return null;
-    }
 }

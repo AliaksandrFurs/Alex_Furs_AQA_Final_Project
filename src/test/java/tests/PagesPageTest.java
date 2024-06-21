@@ -5,7 +5,7 @@ import enums.MainMenuBarSectionEnum;
 import factories.PageFactory;
 import interfaces.pages.ICreatePageInterface;
 import interfaces.pages.ILoginPageInterface;
-import interfaces.pages.IPagesOrdinaryPageInterface;
+import interfaces.pages.IPageWithDraft;
 import io.qameta.allure.Description;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
@@ -14,11 +14,12 @@ import org.testng.Assert;
 import org.testng.annotations.*;
 import utils.Configuration;
 import utils.Logging;
+import utils.TestUtils;
 
 @Listeners({AllureReportListener.class})
 public class PagesPageTest extends BaseTest{
 
-    IPagesOrdinaryPageInterface pagesPage = PageFactory.getPagesPage(driver);
+    IPageWithDraft pagesPage = PageFactory.getPagesPage(driver);
     ILoginPageInterface loginPage = PageFactory.getLoginPage(driver);
     ICreatePageInterface createPage = PageFactory.getCreatePage(driver);
 
@@ -50,21 +51,21 @@ public class PagesPageTest extends BaseTest{
         pagesPage.openAddingEntityPage();
         createPage.addNewEntity(Page.getPostTitle(), Page.getPostBody());
         pagesPage.searchEntity(Page.getPostTitle());
-        Assert.assertTrue(pagesPage.isEntityAvailable(Page.getPostTitle()), "Page was not added");
+        Assert.assertTrue(TestUtils.isEntityAvailable(pagesPage, Page.getPostTitle()), "Page was not added");
     }
 
     @Test (priority = 2, groups = "regression")
     @Severity(SeverityLevel.NORMAL) @Description("Find specific page")
     public void findPageTest(){
         pagesPage.searchEntity("Page.getPostTitle()");
-        Assert.assertTrue(pagesPage.isEntityAvailable(Page.getPostTitle()), "Page does not found");
+        Assert.assertTrue(TestUtils.isEntityAvailable(pagesPage, Page.getPostTitle()), "Page does not found");
     }
 
     @Test (priority = 5, groups = {"smoke", "regression"})
     @Severity(SeverityLevel.CRITICAL) @Description("Delete page test")
     public void deletePageTest(){
         pagesPage.deleteEntity(Page.getNewPageTitle());
-        Assert.assertFalse(pagesPage.isEntityAvailable(Page.getNewPageTitle()), "Page still available");
+        Assert.assertFalse(TestUtils.isEntityAvailable(pagesPage, Page.getNewPageTitle()), "Page still available");
     }
 
     @Test (priority = 3, groups = "regression")
@@ -73,7 +74,7 @@ public class PagesPageTest extends BaseTest{
         pagesPage.openAddingEntityPage();
         createPage.saveEntityAsDraft("Test as draft", "Test as draft");
         pagesPage.searchEntity("Test as draft");
-        Assert.assertTrue(pagesPage.isPageDraft("Test as draft"), "Post is not draft");
+        Assert.assertTrue(TestUtils.isEntityDraft(pagesPage,"Test as draft"), "Post is not draft");
     }
 
     @Test(priority = 4, groups = {"smoke", "regression"})
@@ -82,6 +83,6 @@ public class PagesPageTest extends BaseTest{
         pagesPage.clickOnEntity(Page.getPostTitle());
         createPage.updateEntity(Page.getNewPageTitle(), Page.getNewPageBody());
         pagesPage.searchEntity(Page.getNewPageTitle());
-        Assert.assertTrue(pagesPage.isEntityWasUpdate(Page.getNewPageTitle()), "Page was not edited");
+        Assert.assertTrue(TestUtils.isEntityWasUpdate(pagesPage, Page.getNewPageTitle()), "Page was not edited");
     }
 }

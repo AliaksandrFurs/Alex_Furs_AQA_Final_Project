@@ -1,15 +1,18 @@
 package interfaces.pages;
-
 import enums.MainMenuBarSectionEnum;
+import interfaces.tables.ITable;
+import org.openqa.selenium.By;
+import java.util.HashMap;
 
-public interface IPagesOrdinaryPageInterface {
+public interface IPage {
+
     void openPage();
 
     boolean isOpened();
 
     void searchEntity(String entityName);
 
-    boolean isEntityAvailable(String entityName);
+    boolean isSectionPresented(MainMenuBarSectionEnum sectionName);
 
     void deleteEntity(String enityName);
 
@@ -19,9 +22,8 @@ public interface IPagesOrdinaryPageInterface {
 
     void ClickOnBarSection(MainMenuBarSectionEnum sectionName);
 
-    boolean isSectionPresented(MainMenuBarSectionEnum sectionName);
+    HashMap <String, By> getPageLocatorsMap();
 
-    boolean isEntityWasUpdate(String entityName);
+    ITable getPageTable();
 
-    boolean isPageDraft(String postTitle);
 }

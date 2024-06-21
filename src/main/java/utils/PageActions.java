@@ -1,6 +1,5 @@
 package utils;
 
-import elements.bars.MainMenuBar;
 import enums.MainMenuBarSectionEnum;
 import interfaces.IMainMenuBarActions;
 import interfaces.tables.ITable;

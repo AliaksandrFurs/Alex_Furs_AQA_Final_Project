@@ -4,7 +4,7 @@ import business.Media;
 import enums.MainMenuBarSectionEnum;
 import factories.PageFactory;
 import interfaces.pages.ILoginPageInterface;
-import interfaces.pages.IMediaLibraryPageInterface;
+import interfaces.pages.IPage;
 import io.qameta.allure.Description;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
@@ -14,12 +14,13 @@ import org.testng.annotations.*;
 import pages.UploadNewMediaPage;
 import utils.Configuration;
 import utils.Logging;
+import utils.TestUtils;
 
 @Listeners({AllureReportListener.class})
 public class MediaLibraryPageTest extends BaseTest{
 
     ILoginPageInterface loginPage = PageFactory.getLoginPage(driver);
-    IMediaLibraryPageInterface mediaLibraryPage = PageFactory.getMediaPage(driver);
+    IPage mediaLibraryPage = PageFactory.getMediaPage(driver);
     UploadNewMediaPage uploadMediaPage = PageFactory.getUploadNewMediaPage(driver);
 
     @BeforeClass(alwaysRun = true)
@@ -47,7 +48,7 @@ public class MediaLibraryPageTest extends BaseTest{
     @Severity(SeverityLevel.NORMAL) @Description("Delete media test")
     public void deleteMediaTest(){
         mediaLibraryPage.deleteEntity(Media.getMediaNameTitle());
-        Assert.assertTrue(mediaLibraryPage.isEntityAvailable(Media.getMediaNameTitle()), "Media still available and was not delete");
+        Assert.assertTrue(TestUtils.isEntityAvailable(mediaLibraryPage, Media.getMediaNameTitle()), "Media was not delete or not presented");
     }
 
     @Test(priority = 1, groups = "regression")
@@ -56,7 +57,7 @@ public class MediaLibraryPageTest extends BaseTest{
         mediaLibraryPage.openAddingEntityPage();
         uploadMediaPage.uploadNewImage(Media.getMediaNameTitle());
         mediaLibraryPage.searchEntity(Media.getMediaNameTitle());
-        Assert.assertTrue(mediaLibraryPage.isEntityAvailable(Media.getMediaNameTitle()));
+        Assert.assertTrue(TestUtils.isEntityAvailable(mediaLibraryPage, Media.getMediaNameTitle()));
     }
 
     @Test(priority = 3, groups = "regression")

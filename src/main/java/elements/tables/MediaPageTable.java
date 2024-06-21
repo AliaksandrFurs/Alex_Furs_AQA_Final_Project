@@ -2,7 +2,7 @@ package elements.tables;
 
 import elements.rows.MediaPageTableRow;
 import elements.Table;
-import interfaces.tables.IMediaPageTableInterface;
+import interfaces.tables.ITable;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,7 +11,7 @@ import utils.Logging;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MediaPageTable extends Table implements IMediaPageTableInterface {
+public class MediaPageTable extends Table implements ITable {
 
     WebDriver driver;
     private final static String TITLE_PATTERN = "//a[text()[contains(.,'%s)]]";
@@ -76,16 +76,6 @@ public class MediaPageTable extends Table implements IMediaPageTableInterface {
             return allRowsTitle;
     }
 
-
-    @Override
-    public MediaPageTableRow getRowByTitle(String rowTitle) {
-            for(MediaPageTableRow row : tableRows){
-                if(row.getName().equals(rowTitle)){
-                    return row;
-                }
-            }
-            return null;
-    }
     @Override
     public int getRowsNumber(){
         return rowsNumber;
