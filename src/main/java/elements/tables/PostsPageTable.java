@@ -2,9 +2,8 @@ package elements.tables;
 
 import elements.Table;
 import elements.rows.PostPageTableRow;
-import interfaces.tables.ITableWithDraft;
+import interfaces.tables.ITable;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import utils.Logging;
@@ -12,13 +11,12 @@ import utils.Logging;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PostsPageTable extends Table implements ITableWithDraft {
+public class PostsPageTable extends Table implements ITable {
 
     WebDriver driver;
     private static final String PATTERN = "//tr[@id='%s']//strong/span[contains(text(), 'Draft')]";
     private static final String TITLE_PATTERN = "//a[contains(text(), '%s')]";
     private List<PostPageTableRow> tableRows = new ArrayList<>();
-    private List<WebElement> allAuthorTitle = new ArrayList<>();
 
 
     public PostsPageTable(WebDriver driver) {
@@ -26,82 +24,24 @@ public class PostsPageTable extends Table implements ITableWithDraft {
         this.driver = driver;
         tableLocatorsMap.put("rowTitle", By.xpath("//a[contains(@class, 'row-title')]"));
         tableLocatorsMap.put("rowId", By.xpath("//tr[contains(@id, 'post-')]"));
-        tableLocatorsMap.put("rowsNumber", By.xpath("//tbody[@id='the-list']/tr[contains(@id, 'post')]"));
     }
 
     @Override
     public void createTableRows() {
-        if (rowsNumber != 0) {
-            getAllRowsTitle().clear();
-            allAuthorTitle.clear();
-            getAllId().clear();
-            tableRows.clear();
-
-            setAllRowsTitle(driver.findElements(tableLocatorsMap.get("rowTitle")));
-            allAuthorTitle = driver.findElements(tableLocatorsMap.get("authorTitle"));
-            setAllId(driver.findElements(tableLocatorsMap.get("rowId")));
-
-            for (int i = 0; i < rowsNumber; i++) {
-                tableRows.add(new PostPageTableRow(getAllRowsTitle().get(i).getText(), allAuthorTitle.get(i).getText(), getAllId().get(i).getAttribute("id")));
+        tableRows.clear();
+        List <WebElement> allId = driver.findElements(tableLocatorsMap.get("rowId"));
+        if(allId.size() > 0){
+            for (WebElement element : allId) {
+                tableRows.add(new PostPageTableRow(element.getAttribute("id")));
             }
-        }else{
-            Logging.logWarn("Rows number is 0! Unable to create rows!");
+        }else if(allId.size() == 0){
+            Logging.logWarn("No rows available");
         }
-
-        for(PostPageTableRow row: tableRows){
-            try{
-                driver.findElement(By.xpath(String.format(PATTERN, row.getId())));
-                row.setDraft(true);
-            }catch(NoSuchElementException e){
-                row.setDraft(false);
-                Logging.logWarn("Element not exists");
-            }
-        }
-    }
-
-    @Override
-    public void updateRowsNumber() {
-        rowsNumber = driver.findElements(tableLocatorsMap.get("rowsNumber")).size();
+        //TBD
     }
 
     @Override
     public void selectRows() {
         driver.findElement(tableLocatorsMap.get("rowCheckbox")).click();
     }
-
-    @Override
-    public void deleteTableRows(){
-        tableRows.clear();
-    }
-
-    @Override
-    public void clickOnRowTitle(String rowTitle){
-        for(PostPageTableRow row: tableRows){
-            if(row.getName().equals(rowTitle)){
-                driver.findElement(By.xpath(String.format(TITLE_PATTERN, rowTitle))).click();
-                break;
-            }
-        }
-    }
-
-    @Override
-    public List<WebElement> getAllRowsTitle() {
-        return allRowsTitle;
-    }
-
-    @Override
-    public int getRowsNumber() {
-        return rowsNumber;
-    }
-
-    @Override
-    public boolean isTitleDraft(String title){
-        for(PostPageTableRow row: tableRows){
-            if(row.getName().equals(title)){
-                return row.isDraft();
-            }
-        }
-        return false;
-    }
-
 }

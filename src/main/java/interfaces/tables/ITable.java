@@ -8,16 +8,20 @@ public interface ITable {
 
     void createTableRows();
 
-    void deleteTableRows();
+    //void deleteTableRows();
 
-    void updateRowsNumber();
+    //void updateRowsNumber();
+
+    //void updateColNumber();
+
+    //void updateColNames();
 
     void selectRows();
 
-    void clickOnRowTitle(String rowTitle);
+    //void clickOnRowTitle(String rowTitle);
 
-    List<WebElement> getAllRowsTitle();
+    //List<WebElement> getAllRowsTitle();
 
-    int getRowsNumber();
+    //int getRowsNumber();
 
 }

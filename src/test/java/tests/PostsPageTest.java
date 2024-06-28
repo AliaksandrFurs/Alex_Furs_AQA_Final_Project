@@ -5,7 +5,7 @@ import enums.MainMenuBarSectionEnum;
 import factories.PageFactory;
 import interfaces.pages.ICreatePageInterface;
 import interfaces.pages.ILoginPageInterface;
-import interfaces.pages.IPageWithDraft;
+import interfaces.pages.IPage;
 import io.qameta.allure.Description;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
@@ -19,7 +19,7 @@ import utils.TestUtils;
 @Listeners({AllureReportListener.class})
 public class PostsPageTest extends BaseTest {
 
-    IPageWithDraft postsPage = PageFactory.getPostsPage(driver);
+    IPage postsPage = PageFactory.getPostsPage(driver);
     ILoginPageInterface loginPage = PageFactory.getLoginPage(driver);
     ICreatePageInterface createPage = PageFactory.getCreatePage(driver);
 

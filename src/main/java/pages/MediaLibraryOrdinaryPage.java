@@ -7,16 +7,18 @@ import interfaces.tables.ITable;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import utils.PageActions;
 import utils.Wait;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class MediaLibraryOrdinaryPage extends BasePage implements IPage {
 
     private final static String MEDIA_URL = "https://wordpress-test-app-for-selenium.azurewebsites.net/wp-admin/upload.php";
-
+    private final static String TITLE_PATTERN = "//span[contains(text(),'%s]";
     private By mediaLocator = By.className("has-media-icon");
     private ITable mediaPageTable= new MediaPageTable(driver);
     private Select actionDropdownSelect;
@@ -30,6 +32,7 @@ public class MediaLibraryOrdinaryPage extends BasePage implements IPage {
         pageLocatorsMap.put("searchButton",By.id("search-submit"));
         pageLocatorsMap.put("dropdown", By.id("bulk-action-selector-top"));
         pageLocatorsMap.put("table", By.xpath("//table[@class='wp-list-table widefat fixed striped table-view-list media']"));
+        pageLocatorsMap.put("allTitles", By.xpath("//tbody[@id='the-list']/tr//strong/a"));
     }
 
     @Override
@@ -37,8 +40,6 @@ public class MediaLibraryOrdinaryPage extends BasePage implements IPage {
     public void openPage() {
         driver.get(MEDIA_URL);
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("pageNameLocator")));
-        mediaPageTable.deleteTableRows();
-        mediaPageTable.updateRowsNumber();
         mediaPageTable.createTableRows();
     }
 
@@ -56,8 +57,6 @@ public class MediaLibraryOrdinaryPage extends BasePage implements IPage {
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("searchButton")));
         PageActions.searchEntity(entityName, mediaPageTable, pageLocatorsMap, driver);
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
-        mediaPageTable.deleteTableRows();
-        mediaPageTable.updateRowsNumber();
         mediaPageTable.createTableRows();
     }
 
@@ -68,10 +67,9 @@ public class MediaLibraryOrdinaryPage extends BasePage implements IPage {
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
         PageActions.searchEntity(enityName, mediaPageTable, pageLocatorsMap, driver);
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
-        mediaPageTable.deleteTableRows();
-        mediaPageTable.updateRowsNumber();
         mediaPageTable.createTableRows();
-        if(mediaPageTable.getRowsNumber() != 0){
+        List<WebElement> allId = driver.findElements(pageLocatorsMap.get("rowId"));
+        if(allId.size() != 0){
             PageActions.deleteEntity(actionDropdownSelect, "delete", mediaPageTable, pageLocatorsMap, driver);
         }
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
@@ -91,14 +89,10 @@ public class MediaLibraryOrdinaryPage extends BasePage implements IPage {
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
         PageActions.searchEntity(entityName, mediaPageTable, pageLocatorsMap, driver);
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
-        mediaPageTable.deleteTableRows();
-        mediaPageTable.updateRowsNumber();
-        mediaPageTable.createTableRows();
-        if(mediaPageTable.getRowsNumber() != 0){
-            if (actionDropdownSelect == null) {
-                actionDropdownSelect = new Select(driver.findElement(pageLocatorsMap.get("dropdown")));
-            }
-            mediaPageTable.clickOnRowTitle(entityName);
+        List<WebElement> allId = driver.findElements(pageLocatorsMap.get("rowId"));
+        if(allId.size() != 0){
+            String xpath = String.format(TITLE_PATTERN, entityName);
+            driver.findElement(By.xpath(xpath)).click();
         }
     }
 

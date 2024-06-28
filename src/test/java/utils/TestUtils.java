@@ -2,8 +2,8 @@ package utils;
 
 import elements.rows.PagesPageTableRow;
 import interfaces.pages.IPage;
-import interfaces.pages.IPageWithDraft;
 import io.qameta.allure.Step;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -17,15 +17,16 @@ public class TestUtils {
     public static boolean isEntityAvailable(IPage page, String entityName) {
         Wait.isElementPresented(driver.findElement(page.getPageLocatorsMap().get("pageNameLocator")));
         Wait.isElementPresented(driver.findElement(page.getPageLocatorsMap().get("table")));
-        if(page.getPageTable().getRowsNumber() == 0){
+        List <WebElement> allId = driver.findElements(page.getPageLocatorsMap().get("rowId"));
+        if(allId.size() == 0){
             Wait.isElementPresented(driver.findElement(page.getPageLocatorsMap().get("noEntityFoundLocator")));
             if(driver.findElement(page.getPageLocatorsMap().get("noEntityFoundLocator")).getText().equals("No media files found.")){
                 return false;
             }
         }else{
-            if(page.getPageTable().getAllRowsTitle().size() > 0){
-                List<WebElement> temList = page.getPageTable().getAllRowsTitle();
-                for(WebElement element : temList){
+            if(allId.size() > 0){
+                List<WebElement> allTitles = driver.findElements(page.getPageLocatorsMap().get("allTitles"));
+                for(WebElement element : allTitles){
                     if(element.getText().equals(entityName)){
                         return true;
                     }
@@ -53,9 +54,20 @@ public class TestUtils {
     }
 
     @Step("Verisy is post is a draft")
-    public static boolean isEntityDraft(IPageWithDraft page, String postTitle){
+    public static boolean isEntityDraft(IPage page, String postTitle){
         Wait.isElementPresented(driver.findElement(page.getPageLocatorsMap().get("pageNameLocator")));
         Wait.isElementPresented(driver.findElement(page.getPageLocatorsMap().get("table")));
-        return page.getPageTable().isTitleDraft(postTitle);
+        List<WebElement> allTitles = driver.findElements(page.getPageLocatorsMap().get("allTitles"));
+        for(WebElement element : allTitles){
+            if(element.getText().equals(postTitle)){
+                try{
+                    driver.findElement(page.getPageLocatorsMap().get("draft"));
+                    return true;
+                }catch(NoSuchElementException e){
+                    return false;
+                }
+            }
+        }
+        return false;
     }
 }

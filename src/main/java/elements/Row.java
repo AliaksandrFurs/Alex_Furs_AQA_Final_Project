@@ -1,18 +1,12 @@
 package elements;
 
-import org.openqa.selenium.By;
-
 public class Row {
 
-    String name;
+    String title;
     String author;
     String id;
-    boolean isDraft;
 
-    public Row(String name, String author, String id){
-
-        this.name = name;
-        this.author = author;
+    public Row(String id){
         this.id = id;
 
     }
@@ -21,15 +15,15 @@ public class Row {
         return id;
     }
 
-    public boolean isDraft() {
-        return isDraft;
+    public String getTitle() {
+        return title;
     }
 
-    public void setDraft(boolean draft) {
-        isDraft = draft;
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
-    public String getName() {
-        return name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

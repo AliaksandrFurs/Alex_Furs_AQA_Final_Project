@@ -1,26 +1,27 @@
 package pages;
 
-import elements.rows.PostPageTableRow;
 import elements.tables.PostsPageTable;
 import enums.MainMenuBarSectionEnum;
-import interfaces.pages.IPageWithDraft;
-import interfaces.tables.ITableWithDraft;
+import interfaces.pages.IPage;
+import interfaces.tables.ITable;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import utils.PageActions;
 import utils.Wait;
 
 import java.util.HashMap;
+import java.util.List;
 
-public class PostsOrdinaryPage extends BasePage implements IPageWithDraft {
+public class PostsOrdinaryPage extends BasePage implements IPage {
 
 
     private final static String POSTS_URL = "https://wordpress-test-app-for-selenium.azurewebsites.net/wp-admin/edit.php";
-
+    private static final String TITLE_PATTERN = "//a[contains(text(), '%s')]";
     private Select actionDropdownSelect;
-    private ITableWithDraft postsPageTable = new PostsPageTable(driver);
+    private ITable postsPageTable = new PostsPageTable(driver);
 
     public PostsOrdinaryPage(WebDriver driver) {
         super(driver);
@@ -38,7 +39,6 @@ public class PostsOrdinaryPage extends BasePage implements IPageWithDraft {
     public void openPage() {
         driver.get(POSTS_URL);
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("pageNameLocator")));
-        postsPageTable.updateRowsNumber();
         postsPageTable.createTableRows();
     }
 
@@ -56,8 +56,6 @@ public class PostsOrdinaryPage extends BasePage implements IPageWithDraft {
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("searchButton")));
         PageActions.searchEntity(entityName, postsPageTable, pageLocatorsMap, driver);
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
-        postsPageTable.deleteTableRows();
-        postsPageTable.updateRowsNumber();
         postsPageTable.createTableRows();
     }
 
@@ -68,10 +66,9 @@ public class PostsOrdinaryPage extends BasePage implements IPageWithDraft {
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
         PageActions.searchEntity(entityName, postsPageTable, pageLocatorsMap, driver);
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
-        postsPageTable.deleteTableRows();
-        postsPageTable.updateRowsNumber();
         postsPageTable.createTableRows();
-        if(postsPageTable.getRowsNumber() != 0){
+        List<WebElement> allId = driver.findElements(pageLocatorsMap.get("rowId"));
+        if(allId.size() != 0){
             PageActions.deleteEntity(actionDropdownSelect, "trash", postsPageTable, pageLocatorsMap, driver);
         }
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
@@ -92,14 +89,10 @@ public class PostsOrdinaryPage extends BasePage implements IPageWithDraft {
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
         PageActions.searchEntity(entityName, postsPageTable, pageLocatorsMap, driver);
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
-        postsPageTable.deleteTableRows();
-        postsPageTable.updateRowsNumber();
-        postsPageTable.createTableRows();
-        if(postsPageTable.getRowsNumber() != 0){
-            if (actionDropdownSelect == null) {
-                actionDropdownSelect = new Select(driver.findElement(pageLocatorsMap.get("dropdown")));
-            }
-            postsPageTable.clickOnRowTitle(entityName);
+        List<WebElement> allId = driver.findElements(pageLocatorsMap.get("rowId"));
+        if(allId.size() != 0){
+            String xpath = String.format(TITLE_PATTERN, entityName);
+            driver.findElement(By.xpath(xpath)).click();
         }
     }
 
@@ -115,7 +108,7 @@ public class PostsOrdinaryPage extends BasePage implements IPageWithDraft {
     }
 
     @Override
-    public ITableWithDraft getPageTable() {
+    public ITable getPageTable() {
         return postsPageTable;
     }
 
