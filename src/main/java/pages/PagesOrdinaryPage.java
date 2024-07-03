@@ -1,9 +1,7 @@
 package pages;
 
-import elements.tables.PagesPageTable;
 import enums.MainMenuBarSectionEnum;
 import interfaces.pages.IPage;
-import interfaces.tables.ITable;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -20,7 +18,6 @@ public class PagesOrdinaryPage extends  BasePage implements IPage {
     private final static String PAGE_UTL = "https://wordpress-test-app-for-selenium.azurewebsites.net/wp-admin/edit.php?post_type=page";
     private static final String TITLE_PATTERN = "//a[contains(text(), '%s')]";
     private Select actionDropdownSelect;
-    private ITable pagesPageTable = new PagesPageTable(driver);
 
     public PagesOrdinaryPage(WebDriver driver){
         super(driver);
@@ -33,6 +30,7 @@ public class PagesOrdinaryPage extends  BasePage implements IPage {
         pageLocatorsMap.put("table", By.className("wp-list-table widefat fixed striped table-view-list pages"));
         pageLocatorsMap.put("draft", By.xpath("//strong/span[contains(text(), 'Draft')]"));
         pageLocatorsMap.put("allTitles", By.xpath("//tbody[@id='the-list']/tr//strong/a"));
+        pageLocatorsMap.put("title", By.xpath("//strong/a"));
     }
 
     @Override
@@ -40,7 +38,7 @@ public class PagesOrdinaryPage extends  BasePage implements IPage {
     public void openPage() {
         driver.get(PAGE_UTL);
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("pageNameLocator")));
-        pagesPageTable.createTableRows();
+        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
     }
 
     @Override
@@ -55,9 +53,8 @@ public class PagesOrdinaryPage extends  BasePage implements IPage {
     public void searchEntity(String entityName) {
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("searchInput")));
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("searchButton")));
-        PageActions.searchEntity(entityName, pagesPageTable, pageLocatorsMap, driver);
+        PageActions.searchEntity(entityName, pageLocatorsMap, driver);
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
-        pagesPageTable.createTableRows();
     }
 
     @Override
@@ -65,12 +62,11 @@ public class PagesOrdinaryPage extends  BasePage implements IPage {
     public void deleteEntity(String enityName) {
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("pageNameLocator")));
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
-        PageActions.searchEntity(enityName, pagesPageTable, pageLocatorsMap, driver);
+        PageActions.searchEntity(enityName,  pageLocatorsMap, driver);
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
-        pagesPageTable.createTableRows();
         List<WebElement> allId = driver.findElements(pageLocatorsMap.get("rowId"));
         if(allId.size() != 0){
-            PageActions.deleteEntity(actionDropdownSelect, "trash", pagesPageTable, pageLocatorsMap, driver);
+            PageActions.deleteEntity(actionDropdownSelect, "trash", pageLocatorsMap, driver);
         }
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
     }
@@ -95,11 +91,6 @@ public class PagesOrdinaryPage extends  BasePage implements IPage {
     }
 
     @Override
-    public ITable getPageTable() {
-        return pagesPageTable;
-    }
-
-    @Override
     @Step("Verify is main menu bar section presented")
     public boolean isSectionPresented(MainMenuBarSectionEnum sectionName) {
         return false;
@@ -110,7 +101,7 @@ public class PagesOrdinaryPage extends  BasePage implements IPage {
     public void clickOnEntity(String entityName){
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("pageNameLocator")));
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
-        PageActions.searchEntity(entityName, pagesPageTable, pageLocatorsMap, driver);
+        PageActions.searchEntity(entityName, pageLocatorsMap, driver);
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
         List<WebElement> allId = driver.findElements(pageLocatorsMap.get("rowId"));
         if(allId.size() != 0){

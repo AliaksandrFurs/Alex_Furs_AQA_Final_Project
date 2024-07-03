@@ -1,6 +1,5 @@
 package utils;
 
-import elements.rows.PagesPageTableRow;
 import interfaces.pages.IPage;
 import io.qameta.allure.Step;
 import org.openqa.selenium.NoSuchElementException;
@@ -37,22 +36,6 @@ public class TestUtils {
         return false;
     }
 
-    @Step("Verify ie page entity was previously updated")
-    public static boolean isEntityWasUpdate(IPage page, String entityName){
-        Wait.isElementPresented(driver.findElement(page.getPageLocatorsMap().get("pageNameLocator")));
-        Wait.isElementPresented(driver.findElement(page.getPageLocatorsMap().get("table")));
-        if(isEntityAvailable(page, entityName)){
-            PagesPageTableRow currentRow = page.getPageTable().getRowByTitle(entityName);
-            if(tempRow.getId().equals(currentRow.getId())){
-                return true;
-            }else{
-                return false;
-            }
-        }else{
-            return false;
-        }
-    }
-
     @Step("Verisy is post is a draft")
     public static boolean isEntityDraft(IPage page, String postTitle){
         Wait.isElementPresented(driver.findElement(page.getPageLocatorsMap().get("pageNameLocator")));
@@ -66,6 +49,20 @@ public class TestUtils {
                 }catch(NoSuchElementException e){
                     return false;
                 }
+            }
+        }
+        return false;
+    }
+
+    public static boolean verifyIsTitleCorrect(IPage page, String postTitle){
+        Wait.isElementPresented(driver.findElement(page.getPageLocatorsMap().get("pageNameLocator")));
+        Wait.isElementPresented(driver.findElement(page.getPageLocatorsMap().get("table")));
+        List<WebElement> allTitles = driver.findElements(page.getPageLocatorsMap().get("allTitles"));
+        if(allTitles.size() > 0){
+            if(driver.findElement(page.getPageLocatorsMap().get("title")).getText().equals(postTitle)){
+                return true;
+            }else {
+                return false;
             }
         }
         return false;

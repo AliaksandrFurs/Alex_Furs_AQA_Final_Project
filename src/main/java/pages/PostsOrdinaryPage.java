@@ -1,9 +1,7 @@
 package pages;
 
-import elements.tables.PostsPageTable;
 import enums.MainMenuBarSectionEnum;
 import interfaces.pages.IPage;
-import interfaces.tables.ITable;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -21,7 +19,6 @@ public class PostsOrdinaryPage extends BasePage implements IPage {
     private final static String POSTS_URL = "https://wordpress-test-app-for-selenium.azurewebsites.net/wp-admin/edit.php";
     private static final String TITLE_PATTERN = "//a[contains(text(), '%s')]";
     private Select actionDropdownSelect;
-    private ITable postsPageTable = new PostsPageTable(driver);
 
     public PostsOrdinaryPage(WebDriver driver) {
         super(driver);
@@ -32,6 +29,7 @@ public class PostsOrdinaryPage extends BasePage implements IPage {
         pageLocatorsMap.put("searchButton",By.id("search-submit"));
         pageLocatorsMap.put("dropdown", By.id("bulk-action-selector-top"));
         pageLocatorsMap.put("table", By.className("wp-list-table widefat fixed striped table-view-list posts"));
+        pageLocatorsMap.put("title", By.xpath("//strong/a"));
     }
 
     @Override
@@ -39,7 +37,7 @@ public class PostsOrdinaryPage extends BasePage implements IPage {
     public void openPage() {
         driver.get(POSTS_URL);
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("pageNameLocator")));
-        postsPageTable.createTableRows();
+        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
     }
 
     @Override
@@ -54,9 +52,8 @@ public class PostsOrdinaryPage extends BasePage implements IPage {
     public void searchEntity(String entityName) {
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("mediaSearchInput")));
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("searchButton")));
-        PageActions.searchEntity(entityName, postsPageTable, pageLocatorsMap, driver);
+        PageActions.searchEntity(entityName, pageLocatorsMap, driver);
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
-        postsPageTable.createTableRows();
     }
 
     @Override
@@ -64,12 +61,11 @@ public class PostsOrdinaryPage extends BasePage implements IPage {
     public void deleteEntity(String entityName) {
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("pageNameLocator")));
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
-        PageActions.searchEntity(entityName, postsPageTable, pageLocatorsMap, driver);
+        PageActions.searchEntity(entityName, pageLocatorsMap, driver);
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
-        postsPageTable.createTableRows();
         List<WebElement> allId = driver.findElements(pageLocatorsMap.get("rowId"));
         if(allId.size() != 0){
-            PageActions.deleteEntity(actionDropdownSelect, "trash", postsPageTable, pageLocatorsMap, driver);
+            PageActions.deleteEntity(actionDropdownSelect, "trash", pageLocatorsMap, driver);
         }
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
     }
@@ -87,7 +83,7 @@ public class PostsOrdinaryPage extends BasePage implements IPage {
     public void clickOnEntity(String entityName) {
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("pageNameLocator")));
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
-        PageActions.searchEntity(entityName, postsPageTable, pageLocatorsMap, driver);
+        PageActions.searchEntity(entityName, pageLocatorsMap, driver);
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
         List<WebElement> allId = driver.findElements(pageLocatorsMap.get("rowId"));
         if(allId.size() != 0){
@@ -105,11 +101,6 @@ public class PostsOrdinaryPage extends BasePage implements IPage {
     @Override
     public HashMap<String, By> getPageLocatorsMap() {
         return pageLocatorsMap;
-    }
-
-    @Override
-    public ITable getPageTable() {
-        return postsPageTable;
     }
 
     @Override

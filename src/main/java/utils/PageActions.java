@@ -2,7 +2,6 @@ package utils;
 
 import enums.MainMenuBarSectionEnum;
 import interfaces.IMainMenuBarActions;
-import interfaces.tables.ITable;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.Select;
@@ -17,14 +16,13 @@ public class PageActions {
         return mainMenuBar.ClickOnBarSection(sectionName);
     }
 
-    public static void searchEntity(String entityName, ITable ITable, HashMap<String, By> pageLocators, WebDriver driver) {
-        //ITable.deleteTableRows();
+    public static void searchEntity(String entityName, HashMap<String, By> pageLocators, WebDriver driver) {
         driver.findElement(pageLocators.get("searchInput")).sendKeys(entityName);
         driver.findElement(pageLocators.get("searchButton")).click();
     }
 
-    public static void deleteEntity(Select dropdown, String action, ITable table, HashMap<String, By> pageLocatorsMap, WebDriver driver){
-        table.selectRows();
+    public static void deleteEntity(Select dropdown, String action, HashMap<String, By> pageLocatorsMap, WebDriver driver){
+        driver.findElement(pageLocatorsMap.get("rowCheckbox")).click();
         dropdown.selectByValue(action);
         driver.findElement(pageLocatorsMap.get("applyActionButton")).click();
         driver.switchTo().alert().accept();

@@ -22,6 +22,7 @@ public abstract class BasePage  {
         pageLocatorsMap = new HashMap<>();
         pageLocatorsMap.put("pageNameLocator", By.xpath("//div[@class='wrap']//h1"));
         pageLocatorsMap.put("noEntityFoundLocator", By.className("colspanchange"));
+        pageLocatorsMap.put("rowCheckbox", By.xpath("//input[contains(@id, 'cb-select')]"));
         mainMenuBar = new MainMenuBar(driver);
         topPageBar = new elements.bars.TopPageBar(driver);
     }

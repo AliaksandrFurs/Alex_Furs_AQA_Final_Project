@@ -1,9 +1,7 @@
 package pages;
 
-import elements.tables.MediaPageTable;
 import enums.MainMenuBarSectionEnum;
 import interfaces.pages.IPage;
-import interfaces.tables.ITable;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -20,7 +18,6 @@ public class MediaLibraryOrdinaryPage extends BasePage implements IPage {
     private final static String MEDIA_URL = "https://wordpress-test-app-for-selenium.azurewebsites.net/wp-admin/upload.php";
     private final static String TITLE_PATTERN = "//span[contains(text(),'%s]";
     private By mediaLocator = By.className("has-media-icon");
-    private ITable mediaPageTable= new MediaPageTable(driver);
     private Select actionDropdownSelect;
 
     public MediaLibraryOrdinaryPage(WebDriver driver){
@@ -33,6 +30,7 @@ public class MediaLibraryOrdinaryPage extends BasePage implements IPage {
         pageLocatorsMap.put("dropdown", By.id("bulk-action-selector-top"));
         pageLocatorsMap.put("table", By.xpath("//table[@class='wp-list-table widefat fixed striped table-view-list media']"));
         pageLocatorsMap.put("allTitles", By.xpath("//tbody[@id='the-list']/tr//strong/a"));
+        pageLocatorsMap.put("title", By.xpath("//strong/a"));
     }
 
     @Override
@@ -40,7 +38,7 @@ public class MediaLibraryOrdinaryPage extends BasePage implements IPage {
     public void openPage() {
         driver.get(MEDIA_URL);
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("pageNameLocator")));
-        mediaPageTable.createTableRows();
+        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
     }
 
     @Override
@@ -55,9 +53,8 @@ public class MediaLibraryOrdinaryPage extends BasePage implements IPage {
     public void searchEntity(String entityName) {
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("searchInput")));
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("searchButton")));
-        PageActions.searchEntity(entityName, mediaPageTable, pageLocatorsMap, driver);
+        PageActions.searchEntity(entityName, pageLocatorsMap, driver);
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
-        mediaPageTable.createTableRows();
     }
 
     @Override
@@ -65,12 +62,11 @@ public class MediaLibraryOrdinaryPage extends BasePage implements IPage {
     public void deleteEntity(String enityName) {
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("pageNameLocator")));
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
-        PageActions.searchEntity(enityName, mediaPageTable, pageLocatorsMap, driver);
+        PageActions.searchEntity(enityName, pageLocatorsMap, driver);
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
-        mediaPageTable.createTableRows();
         List<WebElement> allId = driver.findElements(pageLocatorsMap.get("rowId"));
         if(allId.size() != 0){
-            PageActions.deleteEntity(actionDropdownSelect, "delete", mediaPageTable, pageLocatorsMap, driver);
+            PageActions.deleteEntity(actionDropdownSelect, "delete", pageLocatorsMap, driver);
         }
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
     }
@@ -87,7 +83,7 @@ public class MediaLibraryOrdinaryPage extends BasePage implements IPage {
     public void clickOnEntity(String entityName) {
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("pageNameLocator")));
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
-        PageActions.searchEntity(entityName, mediaPageTable, pageLocatorsMap, driver);
+        PageActions.searchEntity(entityName,  pageLocatorsMap, driver);
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
         List<WebElement> allId = driver.findElements(pageLocatorsMap.get("rowId"));
         if(allId.size() != 0){
@@ -106,11 +102,6 @@ public class MediaLibraryOrdinaryPage extends BasePage implements IPage {
     @Override
     public HashMap<String, By> getPageLocatorsMap() {
         return pageLocatorsMap;
-    }
-
-    @Override
-    public ITable getPageTable() {
-        return mediaPageTable;
     }
 
     @Override
