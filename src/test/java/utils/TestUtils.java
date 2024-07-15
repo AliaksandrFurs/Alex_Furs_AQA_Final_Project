@@ -57,12 +57,54 @@ public class TestUtils {
     public static boolean verifyIsTitleCorrect(IPage page, String postTitle){
         Wait.isElementPresented(driver.findElement(page.getPageLocatorsMap().get("pageNameLocator")));
         Wait.isElementPresented(driver.findElement(page.getPageLocatorsMap().get("table")));
-        List<WebElement> allTitles = driver.findElements(page.getPageLocatorsMap().get("allTitles"));
+        List<WebElement> allTitles = driver.findElements(page.getPageLocatorsMap().get("title"));
         if(allTitles.size() > 0){
-            if(driver.findElement(page.getPageLocatorsMap().get("title")).getText().equals(postTitle)){
-                return true;
-            }else {
-                return false;
+            for(WebElement author : allTitles){
+                if(author.getText().equals(postTitle)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public static boolean verifyIsAuthorCorrect(IPage page, String authorName){
+        Wait.isElementPresented(driver.findElement(page.getPageLocatorsMap().get("pageNameLocator")));
+        Wait.isElementPresented(driver.findElement(page.getPageLocatorsMap().get("table")));
+        List<WebElement> allAuthorNames = driver.findElements(page.getPageLocatorsMap().get("authorName"));
+        if(allAuthorNames.size() > 0){
+            for(WebElement author : allAuthorNames){
+                if(author.getText().equals(authorName)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public static boolean verifyIsDateCorrect(IPage page, String date){
+        Wait.isElementPresented(driver.findElement(page.getPageLocatorsMap().get("pageNameLocator")));
+        Wait.isElementPresented(driver.findElement(page.getPageLocatorsMap().get("table")));
+        List<WebElement> allDates = driver.findElements(page.getPageLocatorsMap().get("date"));
+        if(allDates.size() > 0){
+            for(WebElement author : allDates){
+                if(author.getText().equals(date)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public static boolean verifyIsCommentsCorrect(IPage page, String commentCounter){
+        Wait.isElementPresented(driver.findElement(page.getPageLocatorsMap().get("pageNameLocator")));
+        Wait.isElementPresented(driver.findElement(page.getPageLocatorsMap().get("table")));
+        List<WebElement> allDates = driver.findElements(page.getPageLocatorsMap().get("comment"));
+        if(allDates.size() > 0){
+            for(WebElement author : allDates){
+                if(author.getText().equals(commentCounter)){
+                    return true;
+                }
             }
         }
         return false;

@@ -29,8 +29,10 @@ public class PagesOrdinaryPage extends  BasePage implements IPage {
         pageLocatorsMap.put("dropdown", By.id("bulk-action-selector-top"));
         pageLocatorsMap.put("table", By.className("wp-list-table widefat fixed striped table-view-list pages"));
         pageLocatorsMap.put("draft", By.xpath("//strong/span[contains(text(), 'Draft')]"));
-        pageLocatorsMap.put("allTitles", By.xpath("//tbody[@id='the-list']/tr//strong/a"));
-        pageLocatorsMap.put("title", By.xpath("//strong/a"));
+        pageLocatorsMap.put("title", By.xpath("//tbody[@id='the-list']/tr//strong/a"));
+        pageLocatorsMap.put("authorName", By.xpath("//tbody[@id='the-list']/tr/td[@class='author column-author']/a"));
+        pageLocatorsMap.put("date", By.xpath("//tbody[@id='the-list']/tr/td[@class='date column-date']"));
+        pageLocatorsMap.put("comment", By.xpath("//tbody[@id='the-list']/tr/td[@class='comments column-comments']/div//span[@class='screen-reader-text']"));
     }
 
     @Override

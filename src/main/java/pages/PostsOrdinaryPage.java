@@ -29,7 +29,9 @@ public class PostsOrdinaryPage extends BasePage implements IPage {
         pageLocatorsMap.put("searchButton",By.id("search-submit"));
         pageLocatorsMap.put("dropdown", By.id("bulk-action-selector-top"));
         pageLocatorsMap.put("table", By.className("wp-list-table widefat fixed striped table-view-list posts"));
-        pageLocatorsMap.put("title", By.xpath("//strong/a"));
+        pageLocatorsMap.put("title", By.xpath("//tbody[@id='the-list']/tr//strong/a"));
+        pageLocatorsMap.put("authorName", By.xpath("//tbody[@id='the-list']/tr/td[@class='author column-author']/a"));
+        pageLocatorsMap.put("date", By.xpath("//tbody[@id='the-list']/tr/td[@class='date column-date']"));
     }
 
     @Override

@@ -11,6 +11,7 @@ import io.qameta.allure.SeverityLevel;
 import listeners.AllureReportListener;
 import org.testng.Assert;
 import org.testng.annotations.*;
+import org.testng.asserts.SoftAssert;
 import pages.UploadNewMediaPage;
 import utils.Configuration;
 import utils.Logging;
@@ -22,6 +23,7 @@ public class MediaLibraryPageTest extends BaseTest{
     ILoginPageInterface loginPage = PageFactory.getLoginPage(driver);
     IPage mediaLibraryPage = PageFactory.getMediaPage(driver);
     UploadNewMediaPage uploadMediaPage = PageFactory.getUploadNewMediaPage(driver);
+    SoftAssert softAssert = new SoftAssert();
 
     @BeforeClass(alwaysRun = true)
     public void navigateToAndPrepareData(){
@@ -48,7 +50,7 @@ public class MediaLibraryPageTest extends BaseTest{
     @Severity(SeverityLevel.NORMAL) @Description("Delete media test")
     public void deleteMediaTest(){
         mediaLibraryPage.deleteEntity(Media.getMediaNameTitle());
-        Assert.assertTrue(TestUtils.isEntityAvailable(mediaLibraryPage, Media.getMediaNameTitle()), "Media was not delete or not presented");
+        Assert.assertFalse(TestUtils.isEntityAvailable(mediaLibraryPage, Media.getMediaNameTitle()), "Media was not delete or not presented");
     }
 
     @Test(priority = 1, groups = "regression")
@@ -57,7 +59,10 @@ public class MediaLibraryPageTest extends BaseTest{
         mediaLibraryPage.openAddingEntityPage();
         uploadMediaPage.uploadNewImage(Media.getMediaNameTitle());
         mediaLibraryPage.searchEntity(Media.getMediaNameTitle());
-        Assert.assertTrue(TestUtils.isEntityAvailable(mediaLibraryPage, Media.getMediaNameTitle()));
+        softAssert.assertTrue(TestUtils.isEntityAvailable(mediaLibraryPage, Media.getMediaNameTitle()));
+        softAssert.assertTrue(TestUtils.verifyIsAuthorCorrect(mediaLibraryPage, "admin admin"));
+        softAssert.assertTrue(TestUtils.verifyIsDateCorrect(mediaLibraryPage,"2024/06/02"));
+        softAssert.assertAll();
     }
 
     @Test(priority = 3, groups = "regression")
