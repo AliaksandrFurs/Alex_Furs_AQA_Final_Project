@@ -1,4 +1,5 @@
 package interfaces.pages;
+import enums.LocatorsEnum;
 import enums.MainMenuBarSectionEnum;
 import org.openqa.selenium.By;
 import java.util.HashMap;
@@ -21,6 +22,6 @@ public interface IPage {
 
     void ClickOnBarSection(MainMenuBarSectionEnum sectionName);
 
-    HashMap <String, By> getPageLocatorsMap();
+    HashMap <LocatorsEnum, By> getPageLocatorsMap();
 
 }

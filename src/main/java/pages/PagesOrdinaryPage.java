@@ -1,5 +1,7 @@
 package pages;
 
+import enums.DeleteActionsEnum;
+import enums.LocatorsEnum;
 import enums.MainMenuBarSectionEnum;
 import interfaces.pages.IPage;
 import io.qameta.allure.Step;
@@ -9,7 +11,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import utils.PageActions;
 import utils.Wait;
-
+import static enums.LocatorsEnum.*;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,31 +24,31 @@ public class PagesOrdinaryPage extends  BasePage implements IPage {
     public PagesOrdinaryPage(WebDriver driver){
         super(driver);
         setPageName("Pages");
-        pageLocatorsMap.put("searchInput", By.id("post-search-input"));
-        pageLocatorsMap.put("addNewEntityButton",By.xpath("//a[contains(@class, 'page-title-action')]"));
-        pageLocatorsMap.put("applyActionButton",By.id("doaction"));
-        pageLocatorsMap.put("searchButton",By.id("search-submit"));
-        pageLocatorsMap.put("dropdown", By.id("bulk-action-selector-top"));
-        pageLocatorsMap.put("table", By.className("wp-list-table widefat fixed striped table-view-list pages"));
-        pageLocatorsMap.put("draft", By.xpath("//strong/span[contains(text(), 'Draft')]"));
-        pageLocatorsMap.put("title", By.xpath("//tbody[@id='the-list']/tr//strong/a"));
-        pageLocatorsMap.put("authorName", By.xpath("//tbody[@id='the-list']/tr/td[@class='author column-author']/a"));
-        pageLocatorsMap.put("date", By.xpath("//tbody[@id='the-list']/tr/td[@class='date column-date']"));
-        pageLocatorsMap.put("comment", By.xpath("//tbody[@id='the-list']/tr/td[@class='comments column-comments']/div//span[@class='screen-reader-text']"));
+        pageLocatorsMap.put(SEARCHINPUTLOCATOR, By.id("post-search-input"));
+        pageLocatorsMap.put(ADDNEWENTITYBUTTONLOCATOR,By.xpath("//a[contains(@class, 'page-title-action')]"));
+        pageLocatorsMap.put(APPLYACTIONBUTTONLOCATOR,By.id("doaction"));
+        pageLocatorsMap.put(SEARCHBUTTONLOCATOR,By.id("search-submit"));
+        pageLocatorsMap.put(DELETEACTIONSDROPDOWNLOCATOR, By.id("bulk-action-selector-top"));
+        pageLocatorsMap.put(TABLELOCATOR, By.className("wp-list-table widefat fixed striped table-view-list pages"));
+        pageLocatorsMap.put(DRAFTLOCATOR, By.xpath("//strong/span[contains(text(), 'Draft')]"));
+        pageLocatorsMap.put(TITLELOCATOR, By.xpath("//tbody[@id='the-list']/tr//strong/a"));
+        pageLocatorsMap.put(AUTHORNAMELOCATOR, By.xpath("//tbody[@id='the-list']/tr/td[@class='author column-author']/a"));
+        pageLocatorsMap.put(DATELOCATOR, By.xpath("//tbody[@id='the-list']/tr/td[@class='date column-date']"));
+        pageLocatorsMap.put(COMMENTLOCATOR, By.xpath("//tbody[@id='the-list']/tr/td[@class='comments column-comments']/div//span[@class='screen-reader-text']"));
     }
 
     @Override
     @Step("Open pages page")
     public void openPage() {
         driver.get(PAGE_UTL);
-        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("pageNameLocator")));
-        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
+        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get(PAGENAMELOCATOR)));
+        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get(TABLELOCATOR)));
     }
 
     @Override
     @Step("Verify is pages page opened successfully")
     public boolean isOpened() {
-        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("pageNameLocator")));
+        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get(PAGENAMELOCATOR)));
         return true;
     }
 
@@ -56,29 +58,29 @@ public class PagesOrdinaryPage extends  BasePage implements IPage {
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("searchInput")));
         Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("searchButton")));
         PageActions.searchEntity(entityName, pageLocatorsMap, driver);
-        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
+        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get(TABLELOCATOR)));
     }
 
     @Override
     @Step("Delete page entity")
     public void deleteEntity(String enityName) {
-        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("pageNameLocator")));
-        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
+        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get(PAGENAMELOCATOR)));
+        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get(TABLELOCATOR)));
         PageActions.searchEntity(enityName,  pageLocatorsMap, driver);
-        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
-        List<WebElement> allId = driver.findElements(pageLocatorsMap.get("rowId"));
+        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get(TABLELOCATOR)));
+        List<WebElement> allId = driver.findElements(pageLocatorsMap.get(ROWIDLOCATOR));
         if(allId.size() != 0){
-            PageActions.deleteEntity(actionDropdownSelect, "trash", pageLocatorsMap, driver);
+            PageActions.deleteEntity(actionDropdownSelect, DeleteActionsEnum.TRASH, pageLocatorsMap, driver);
         }
-        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
+        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get(TABLELOCATOR)));
     }
 
     @Override
     @Step("Open creating entity page by button")
     public void openAddingEntityPage() {
-        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("pageNameLocator")));
-        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("addNewEntityButton")));
-        driver.findElement(pageLocatorsMap.get("addNewEntityButton")).click();
+        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get(PAGENAMELOCATOR)));
+        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get(ADDNEWENTITYBUTTONLOCATOR)));
+        driver.findElement(pageLocatorsMap.get(ADDNEWENTITYBUTTONLOCATOR)).click();
     }
 
     @Override
@@ -88,7 +90,7 @@ public class PagesOrdinaryPage extends  BasePage implements IPage {
     }
 
     @Override
-    public HashMap<String, By> getPageLocatorsMap() {
+    public HashMap<LocatorsEnum, By> getPageLocatorsMap() {
         return pageLocatorsMap;
     }
 
@@ -101,11 +103,11 @@ public class PagesOrdinaryPage extends  BasePage implements IPage {
     @Override
     @Step("Click on page entity title from list")
     public void clickOnEntity(String entityName){
-        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("pageNameLocator")));
-        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
+        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get(PAGENAMELOCATOR)));
+        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get(TABLELOCATOR)));
         PageActions.searchEntity(entityName, pageLocatorsMap, driver);
-        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("table")));
-        List<WebElement> allId = driver.findElements(pageLocatorsMap.get("rowId"));
+        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get(TABLELOCATOR)));
+        List<WebElement> allId = driver.findElements(pageLocatorsMap.get(ROWIDLOCATOR));
         if(allId.size() != 0){
             String xpath = String.format(TITLE_PATTERN, entityName);
             driver.findElement(By.xpath(xpath)).click();

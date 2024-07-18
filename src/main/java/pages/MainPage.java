@@ -7,6 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import utils.PageActions;
 import utils.Wait;
+import static enums.LocatorsEnum.*;
 
 public class MainPage extends BasePage implements IMainPageInterface {
 
@@ -15,7 +16,7 @@ public class MainPage extends BasePage implements IMainPageInterface {
 
     public MainPage(WebDriver driver){
         super(driver);
-        pageLocatorsMap.put("siteHealthStatus", By.id("dashboard_site_health"));
+        pageLocatorsMap.put(SITEHEALTHSTATUSLOCATOR, By.id("dashboard_site_health"));
         setPageName("Dashboard");
     }
 
@@ -24,13 +25,13 @@ public class MainPage extends BasePage implements IMainPageInterface {
     @Step("Open dashboard page")
     public void openPage() {
         driver.get(DASHBOARD_URL);
-        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("pageNameLocator")));
+        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get(PAGENAMELOCATOR)));
     }
 
     @Override
     @Step("Verify is dashboard page opened successfully")
     public boolean isOpened() {
-        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get("siteHealthStatus")));
+        Wait.isElementPresented(driver.findElement(pageLocatorsMap.get(SITEHEALTHSTATUSLOCATOR)));
         return true;
     }
 
